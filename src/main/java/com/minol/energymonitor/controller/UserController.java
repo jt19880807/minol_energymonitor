@@ -4,9 +4,7 @@ import com.minol.energymonitor.repository.UserMapper;
 import com.minol.energymonitor.domain.entity.SysUser;
 import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +30,15 @@ public class UserController {
             add(userMapper.selectUserByName("admin"));
         }};
         return JsonUtils.fillResultString(0,"成功",users);
+    }
+
+    /**
+     * 批量删除用户用户信息(假删除，将status字段改为1)
+     * @return
+     */
+    @PostMapping("/users-del")
+    public String batchDelete(@RequestBody List<SysUser> users){
+
+        return null;
     }
 }
