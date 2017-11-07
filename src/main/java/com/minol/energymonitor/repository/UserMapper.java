@@ -11,4 +11,6 @@ import java.util.List;
 public interface UserMapper {
     List<SysUser> selectAllUsers();
     SysUser selectUserByName(String name);
+    int batchDeleteUsers(List<SysUser> users);
+
 }

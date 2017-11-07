@@ -1,5 +1,7 @@
 package com.minol.energymonitor.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -9,7 +11,9 @@ public class SysUser {
     private String password;
     private int role_id;
     private int status;
-    private Timestamp createtime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp  createtime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp last_login;
     private String rolename;
 
@@ -61,7 +65,7 @@ public class SysUser {
         this.status = status;
     }
 
-    public Date getCreatetime() {
+    public Timestamp getCreatetime() {
         return createtime;
     }
 
@@ -69,7 +73,7 @@ public class SysUser {
         this.createtime = createtime;
     }
 
-    public Date getLast_login() {
+    public Timestamp getLast_login() {
         return last_login;
     }
 

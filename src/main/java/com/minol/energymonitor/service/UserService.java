@@ -20,4 +20,8 @@ public class UserService {
     public SysUser selectUserByName(String name) {
         return userMapper.selectUserByName(name);
     }
+
+    public int batchDeletUsers(List<SysUser> users){
+        return userMapper.batchDeleteUsers(users);
+    }
 }
