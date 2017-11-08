@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minol.energymonitor.repository.ProjectMapper" >
+    <resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Project">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="principal" property="principal"/>
+        <result column="contact" property="contact"/>
+        <result column="party_a" property="party_a"/>
+        <result column="construction_unit" property="construction_unit"/>
+        <result column="supervisor_unit" property="supervisor_unit"/>
+        <result column="design_unit" property="design_unit"/>
+        <result column="use_unit" property="use_unit"/>
+        <result column="district" property="district"/>
+        <result column="address" property="address"/>
+        <result column="isdeleted" property="isdeleted"/>
+        <result column="create_time" property="create_time"/>
+        <result column="update_time" property="update_time"/>
+        <result column="create_by" property="create_by"/>
+        <result column="update_by" property="update_by"/>
+    </resultMap>
+
+    <select id="selectAllProjects" resultMap="ProjectResult">
+        SELECT * FROM project WHERE isdeleted=0
+    </select>
+
+    <select id="selectRoleByIds" parameterType="String" resultType="ProjectResult">
+        SELECT * from project where id IN #{id}
+    </select>
+
+</mapper>
