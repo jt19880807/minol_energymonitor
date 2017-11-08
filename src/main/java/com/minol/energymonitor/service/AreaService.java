@@ -1,6 +1,5 @@
 package com.minol.energymonitor.service;
 
-import com.minol.energymonitor.repository.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
