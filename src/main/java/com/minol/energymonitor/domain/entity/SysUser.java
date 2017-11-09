@@ -7,15 +7,47 @@ import java.util.Date;
 
 public class SysUser {
     private int id;
+    /**
+     * 用户名
+     */
     private String username;
+    /**
+     * 密码
+     */
     private String password;
+    /**
+     * 角色ID
+     */
     private int role_id;
+    /**
+     * 状态0：正常 1：删除 2：锁定
+     */
     private int status;
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp  createtime;
+    /**
+     * 最后登录时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp last_login;
+    /**
+     * 角色名
+     */
     private String rolename;
+    /**
+     * 拥有的项目ID *为默认对所有的项目拥有
+     */
+    private String projects;
+
+    public String getProjects() {
+        return projects;
+    }
+    public void setProjects(String projects) {
+        this.projects = projects;
+    }
 
     public String getRolename() {
         return rolename;
@@ -88,5 +120,21 @@ public class SysUser {
 
     public void setSysRole(SysRole sysRole) {
         this.sysRole = sysRole;
+    }
+
+    @Override
+    public String toString() {
+        return "[{" +
+                "id:" + id +
+                ", username:'" + username + '\'' +
+                ", password:'" + password + '\'' +
+                ", role_id:" + role_id +
+                ", status:" + status +
+                ", createtime:" + createtime +
+                ", last_login:" + last_login +
+                ", rolename:'" + rolename + '\'' +
+                ", projects:'" + projects + '\'' +
+                ", sysRole:" + sysRole +
+                "}]";
     }
 }

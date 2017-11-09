@@ -19,13 +19,33 @@
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
     </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        project
+    </sql>
 
-    <select id="selectAllProjects" resultMap="ProjectResult">
-        SELECT * FROM project WHERE isdeleted=0
+    <!--查询所有项目-->
+    <select id="selectProjects" resultMap="ProjectResult">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0
+    </select>
+    <!--查询指定ID范围的项目-->
+    <select id="selectProjectsByIds" parameterType="java.util.Arrays" resultMap="ProjectResult">
+        SELECT * from <include refid="tableName"></include> where id IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+         #{item}
+        </foreach>
+        AND isdeleted=0
     </select>
 
-    <select id="selectRoleByIds" parameterType="String" resultType="ProjectResult">
-        SELECT * from project where id IN #{id}
-    </select>
+
+    <!--批量删除-->
+    <update id="batchDeleteProjects" parameterType="java.util.List">
+        UPDATE <include refid="tableName"></include>
+        SET isdeleted=1
+        WHERE id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </update>
 
 </mapper>

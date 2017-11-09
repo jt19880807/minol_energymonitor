@@ -10,6 +10,7 @@
         <result column="createtime" property="createtime"/>
         <result column="last_login" property="last_login"/>
         <result column="rolename" property="rolename"/>
+        <result column="projects" property="projects"/>
         <!--<association property="sysRole" column="role_id" select="com.minol.energymonitor.repository.RoleMapper.selectRoleById"/>-->
     </resultMap>
     <!--表名 -->

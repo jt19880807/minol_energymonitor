@@ -6,6 +6,9 @@ import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class LoginController {
 
@@ -29,8 +32,10 @@ public class LoginController {
         SysUser muser=userService.selectUserByName(user.getUsername());
         if (muser!=null){
             if (muser.getPassword().equals(user.getPassword())){
+                List<SysUser> users=new ArrayList<>();
+                users.add(muser);
 //                登录成功
-                result= JsonUtils.fillResultString(200,"成功","");
+                result= JsonUtils.fillResultString(200,"成功",users);
             }
             else {
 //                密码错误

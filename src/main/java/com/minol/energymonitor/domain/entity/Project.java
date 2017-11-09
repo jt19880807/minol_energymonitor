@@ -15,7 +15,7 @@ public class Project extends BaseEntity {
      */
     private String contact;
     /**
-     * 健身单位
+     * 建设单位
      */
     private String party_a;
     /**
