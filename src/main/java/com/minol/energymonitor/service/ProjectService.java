@@ -33,4 +33,13 @@ public class ProjectService {
         return projectMapper.batchDeleteProjects(projects);
     }
 
+    /**
+     * 插入一条项目信息
+     * @param project
+     * @return
+     */
+    public int insertProject(Project project){
+        return projectMapper.insertProject(project);
+    }
+
 }

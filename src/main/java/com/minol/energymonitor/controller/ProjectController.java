@@ -6,6 +6,8 @@ import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,6 +35,20 @@ public class ProjectController {
     @PostMapping("/projects-del")
     public String batchDeleteProjects(@RequestBody List<Project> projects){
         int result=projectService.batchDeleteProjects(projects);
+        return JsonUtils.fillResultString(0,"成功",result);
+    }
+
+    /**
+     * 插入一条项目信息
+     * @param project
+     * @return
+     */
+    @PostMapping("/project")
+    public String insertProject(@RequestBody Project project){
+        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+        project.setCreate_time(timestamp);
+        project.setUpdate_time(timestamp);
+        int result=projectService.insertProject(project);
         return JsonUtils.fillResultString(0,"成功",result);
     }
 }
