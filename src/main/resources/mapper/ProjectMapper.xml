@@ -62,6 +62,10 @@
     <select id="selectProjects" resultMap="ProjectResult">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0
     </select>
+    <!--根据主键ID查询项目信息-->
+    <select id="selectProjectById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Project">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
     <!--查询指定ID范围的项目-->
     <select id="selectProjectsByIds" parameterType="java.util.Arrays" resultMap="ProjectResult">
         SELECT * from <include refid="tableName"></include> where id IN
@@ -87,5 +91,23 @@
           <include refid="fieldValue"></include>
         )
     </insert>
+    <!--修改项目信息-->
+    <update id="updateProject" parameterType="com.minol.energymonitor.domain.entity.Project">
+      UPDATE <include refid="tableName"></include>
+        SET  name=#{name},
+        principal=#{principal},
+        contact=#{contact},
+        party_a=#{party_a},
+        construction_unit=#{construction_unit},
+        supervisor_unit=#{supervisor_unit},
+        design_unit=#{design_unit},
+        use_unit=#{use_unit},
+        district=#{district},
+        address=#{address},
+        isdeleted=#{isdeleted},
+        update_time=#{update_time},
+        update_by=#{update_by}
+        WHERE id=#{id}
+    </update>
 
 </mapper>

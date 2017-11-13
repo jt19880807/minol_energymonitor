@@ -15,13 +15,20 @@ public class ProjectService {
     @Autowired
     ProjectMapper projectMapper;
 
+    /**
+     * 查询指定ID的项目信息
+     * @param ids
+     * @return
+     */
     public List<Project> selectProjects(String ids){
-
         if ("*".equals(ids)){
             return projectMapper.selectProjects();
         }
-
         return projectMapper.selectProjectsByIds(ids.split(","));
+    }
+
+    public Project selectProjectById(int id){
+        return projectMapper.selectProjectById(id);
     }
 
     /**
@@ -41,5 +48,14 @@ public class ProjectService {
     public int insertProject(Project project){
         return projectMapper.insertProject(project);
     }
+    /**
+     * 修改项目信息
+     * @param project
+     * @return
+     */
+    public int updateProject(Project project){
+        return projectMapper.updateProject(project);
+    }
+
 
 }

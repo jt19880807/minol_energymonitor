@@ -14,6 +14,8 @@ import java.util.List;
 public interface ProjectMapper {
     List<Project> selectProjectsByIds(String[] ids);
     List<Project> selectProjects();
+    Project selectProjectById(int id);
     int batchDeleteProjects(List<Project> projects);
     int insertProject(Project project);
+    int updateProject(Project project);
 }
