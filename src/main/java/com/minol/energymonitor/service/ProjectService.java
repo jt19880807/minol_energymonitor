@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/11/8.
@@ -14,19 +15,20 @@ import java.util.List;
 public class ProjectService {
     @Autowired
     ProjectMapper projectMapper;
-
     /**
-     * 查询指定ID的项目信息
-     * @param ids
+     * 查询指定ID的和带搜索关键字的项目信息
+     * @param map
      * @return
      */
-    public List<Project> selectProjects(String ids){
-        if ("*".equals(ids)){
-            return projectMapper.selectProjects();
-        }
-        return projectMapper.selectProjectsByIds(ids.split(","));
+    public List<Project> selectProjects(Map map){
+        return projectMapper.selectProjects(map);
     }
 
+    /**
+     * 根据主键ID查找项目信息
+     * @param id
+     * @return
+     */
     public Project selectProjectById(int id){
         return projectMapper.selectProjectById(id);
     }

@@ -1,5 +1,7 @@
 package com.minol.energymonitor.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.minol.energymonitor.domain.entity.Project;
 import com.minol.energymonitor.service.ProjectService;
 import com.minol.energymonitor.utils.JsonUtils;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,15 +21,31 @@ public class ProjectController {
     ProjectService projectService;
 
     /**
-     * 获取项目信息
-     * @param ids
+     * 分页查找指定ID和带搜索关键字的项目信息
+     * @param ids 指定ID，默认为1,2,3... *为查找所有项目
+     * @param keywords 搜索关键字
+     * @param num 当前页码
+     * @param size 每页数量
      * @return
      */
     @GetMapping("/projects/{ids}")
-    public String selectProjects(@PathVariable String ids){
-        List<Project> projects=projectService.selectProjects(ids);
-        return JsonUtils.fillResultString(0,"成功",projects);
+    public PageInfo<Project> selectProjects(@PathVariable String ids,
+                                 @RequestParam String keywords,
+                                 @RequestParam int num,
+                                 @RequestParam int size){
+        PageHelper.startPage(num,size);//分页语句
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(ids.equals("*")){//加入ID
+            map.put("ids",'*');
+        }
+        else {
+            map.put("ids",ids.split(","));
+        }
+        map.put("keywords",keywords);//加入关键字
+        List<Project> projects=projectService.selectProjects(map);
+        return new PageInfo<Project>(projects);
     }
+
 
     /**
      * 批量删除项目信息
