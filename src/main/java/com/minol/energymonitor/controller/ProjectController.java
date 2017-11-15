@@ -103,7 +103,6 @@ public class ProjectController {
     public String updateProject(@PathVariable int id, @RequestBody Project project){
         Project mproject=projectService.selectProjectById(id);
         if (mproject!=null){
-            Timestamp timestamp=new Timestamp(System.currentTimeMillis());
             mproject.setName(project.getName());
             mproject.setPrincipal(project.getPrincipal());
             mproject.setContact(project.getContact());
@@ -115,7 +114,6 @@ public class ProjectController {
             mproject.setDistrict(project.getDistrict());
             mproject.setAddress(project.getAddress());
             mproject.setUpdate_by(project.getUpdate_by());
-            mproject.setUpdate_time(timestamp);
         }
         int result=projectService.updateProject(mproject);
         return JsonUtils.fillResultString(0,"成功",result);

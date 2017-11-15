@@ -130,7 +130,6 @@
         district=#{district},
         address=#{address},
         isdeleted=#{isdeleted},
-        update_time=#{update_time},
         update_by=#{update_by}
         WHERE id=#{id}
     </update>
