@@ -32,7 +32,15 @@ public class Building extends BaseEntity {
     /**
      * 建筑性质
      */
-    private String buliding_type;
+    private String building_type;
+    /**
+     * 项目信息
+     */
+    private Project project;
+    /**
+     * 小区信息
+     */
+    private Area area;
 
     public String getName() {
         return name;
@@ -91,10 +99,34 @@ public class Building extends BaseEntity {
     }
 
     public String getBuliding_type() {
-        return buliding_type;
+        return building_type;
     }
 
-    public void setBuliding_type(String buliding_type) {
-        this.buliding_type = buliding_type;
+    public void setBuliding_type(String building_type) {
+        this.building_type = building_type;
+    }
+
+    public String getBuilding_type() {
+        return building_type;
+    }
+
+    public void setBuilding_type(String building_type) {
+        this.building_type = building_type;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 }

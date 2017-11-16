@@ -112,6 +112,7 @@ public class SysUser {
     public void setLast_login(Timestamp last_login) {
         this.last_login = last_login;
     }
+
     private SysRole sysRole;
 
     public SysRole getSysRole() {

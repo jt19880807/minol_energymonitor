@@ -1,28 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.minol.energymonitor.repository.ProjectMapper" >
-    <!--<resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Project">-->
-        <!--<id column="id" property="id"/>-->
-        <!--<result column="name" property="name"/>-->
-        <!--<result column="principal" property="principal"/>-->
-        <!--<result column="contact" property="contact"/>-->
-        <!--<result column="party_a" property="party_a"/>-->
-        <!--<result column="construction_unit" property="construction_unit"/>-->
-        <!--<result column="supervisor_unit" property="supervisor_unit"/>-->
-        <!--<result column="design_unit" property="design_unit"/>-->
-        <!--<result column="use_unit" property="use_unit"/>-->
-        <!--<result column="district" property="district"/>-->
-        <!--<result column="address" property="address"/>-->
-        <!--<result column="isdeleted" property="isdeleted"/>-->
-        <!--<result column="create_time" property="create_time"/>-->
-        <!--<result column="update_time" property="update_time"/>-->
-        <!--<result column="create_by" property="create_by"/>-->
-        <!--<result column="update_by" property="update_by"/>-->
-    <!--</resultMap>-->
+<mapper namespace="com.minol.energymonitor.repository.BuildingMapper" >
+    <resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Building">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="project_id" property="project_id"/>
+        <result column="area_id" property="area_id"/>
+        <result column="building_years" property="building_years"/>
+        <result column="building_height" property="building_height"/>
+        <result column="house_count" property="house_count"/>
+        <result column="heating_area" property="heating_area"/>
+        <result column="building_type" property="building_type"/>
+        <result column="isdeleted" property="isdeleted"/>
+        <result column="create_time" property="create_time"/>
+        <result column="update_time" property="update_time"/>
+        <result column="create_by" property="create_by"/>
+        <result column="update_by" property="update_by"/>
+        <association property="project" column="project_id" select="com.minol.energymonitor.repository.ProjectMapper.selectProjectById"/>
+        <association property="area" column="area_id" select="com.minol.energymonitor.repository.AreaMapper.selectAreaById"/>
+    </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        building
+    </sql>
 
-    <!--<select id="selectAllProjects" resultMap="ProjectResult">-->
-        <!--SELECT * FROM project WHERE isdeleted=0-->
-    <!--</select>-->
+    <sql id="field">
+        name
+        project_id,
+        area_id,
+        building_years,
+        building_height,
+        house_count,
+        heating_area,
+        building_type,
+        isdeleted,
+        create_time,
+        update_time,
+        create_by,
+        update_by
+    </sql>
+
+    <sql id="fieldValue">
+        #{name},
+        #{project_id},
+        #{area_id},
+        #{building_years},
+        #{building_height},
+        #{house_count},
+        #{heating_area},
+        #{building_type},
+        #{isdeleted},
+        #{create_time},
+        #{update_time},
+        #{create_by},
+        #{update_by}
+update_by
+    </sql>
+
+    <!--根据主键ID查询楼栋信息-->
+    <select id="selectBuildingById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Building">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+    <!--查询指定ID范围的并且带有搜索关键字的项目-->
+    <select id="selectAreas" parameterType="Map" resultMap="AreaResult">
+        SELECT * from <include refid="tableName"></include> where
+        <if test="keywords!= null and keywords != ''"><!--关键词搜索-->
+            (
+            name LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            or
+            district LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            or
+            address LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            ) AND
+        </if>
+        isdeleted=0
+    </select>
 
     <!--<select id="selectRoleByIds" parameterType="String" resultType="ProjectResult">-->
         <!--SELECT * from project where id IN #{id}-->
