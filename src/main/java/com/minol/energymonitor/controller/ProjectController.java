@@ -46,6 +46,24 @@ public class ProjectController {
         return new PageInfo<Project>(projects);
     }
 
+    /**
+     * 查找指定ID或者全部项目信息（用于下拉框，只返回ID和Name）
+     * @param ids 指定ID，默认为1,2,3... *为查找所有项目
+     * @return
+     */
+    @GetMapping("/projects-list/{ids}")
+    public String selectProjects(@PathVariable String ids){
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(ids.equals("*")){//加入ID
+            map.put("ids",'*');
+        }
+        else {
+            map.put("ids",ids.split(","));
+        }
+        List<Project> projects=projectService.selectProjects(map);
+        return JsonUtils.fillResultString(0,"成功",projectService.selectAllProjects(map));
+    }
+
 
     /**
      * 批量删除项目信息

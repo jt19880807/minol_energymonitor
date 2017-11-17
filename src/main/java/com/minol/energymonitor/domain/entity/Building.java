@@ -2,7 +2,7 @@ package com.minol.energymonitor.domain.entity;
 
 public class Building extends BaseEntity {
     /**
-     * 楼栋名称
+     * 楼栋名称（编号）
      */
     private String name;
     /**

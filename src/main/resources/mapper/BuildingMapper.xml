@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.minol.energymonitor.repository.BuildingMapper" >
-    <resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Building">
+    <resultMap id="BuildingResult" type="com.minol.energymonitor.domain.entity.Building">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="project_id" property="project_id"/>
@@ -17,7 +17,7 @@
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
         <association property="project" column="project_id" select="com.minol.energymonitor.repository.ProjectMapper.selectProjectById"/>
-        <association property="area" column="area_id" select="com.minol.energymonitor.repository.AreaMapper.selectAreaById"/>
+        <association property="area" column="area_id" select="com.minol.energymonitor.repository.BuildingMapper.selectBuildingById"/>
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -61,23 +61,53 @@ update_by
     <select id="selectBuildingById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Building">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
-    <!--查询指定ID范围的并且带有搜索关键字的项目-->
-    <select id="selectAreas" parameterType="Map" resultMap="AreaResult">
+    <!--查询指定ID范围的楼栋信息-->
+    <select id="selectBuildings" parameterType="Map" resultMap="BuildingResult">
         SELECT * from <include refid="tableName"></include> where
-        <if test="keywords!= null and keywords != ''"><!--关键词搜索-->
-            (
-            name LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-            or
-            district LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-            or
-            address LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-            ) AND
+        <if test="ids!= '*'"> <!--搜索指定的id-->
+            id IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND
         </if>
         isdeleted=0
     </select>
 
-    <!--<select id="selectRoleByIds" parameterType="String" resultType="ProjectResult">-->
-        <!--SELECT * from project where id IN #{id}-->
-    <!--</select>-->
+    <!--批量删除-->
+    <update id="batchDeleteBuildings" parameterType="java.util.List">
+        UPDATE <include refid="tableName"></include>
+        SET isdeleted=1
+        WHERE id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <!--插入一条楼栋信息-->
+    <insert id="insertBuilding" parameterType="com.minol.energymonitor.domain.entity.Building">
+        INSERT <include refid="tableName"></include> (
+        <include refid="field"></include>
+        ) VALUES (
+        <include refid="fieldValue"></include>
+        )
+    </insert>
+
+    <!--修改楼栋信息-->
+    <update id="updateBuilding" parameterType="com.minol.energymonitor.domain.entity.Building">
+        UPDATE <include refid="tableName"></include>
+        SET
+        name=#{name},
+        project_id=#{name},
+        area_id=#{name},
+        building_years=#{name},
+        building_height=#{name},
+        house_count=#{name},
+        heating_area=#{name},
+        building_type=#{name},
+        isdeleted=#{name},
+        update_by=#{name}
+        WHERE id=#{id}
+    </update>
 
 </mapper>

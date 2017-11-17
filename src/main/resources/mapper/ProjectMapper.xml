@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.minol.energymonitor.repository.ProjectMapper" >
+    <!--数据全部-->
     <resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Project">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -19,6 +20,12 @@
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
     </resultMap>
+    <!--下拉框返回结果-->
+    <resultMap id="ProjectResult_Select" type="com.minol.energymonitor.domain.entity.Project">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
     <!--表名 -->
     <sql id="tableName">
         project
@@ -95,6 +102,18 @@
             ) AND
         </if>
          isdeleted=0
+    </select>
+    <!--查找所有的项目信息，只返回ID和name-->
+    <select id="selectAllProjects" parameterType="Map" resultMap="ProjectResult_Select">
+        SELECT id,name from <include refid="tableName"></include> where
+        <if test="ids!= '*'"> <!--搜索指定的id-->
+            id IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND
+        </if>
+        isdeleted=0
     </select>
 
     <!--批量删除-->

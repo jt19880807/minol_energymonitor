@@ -25,6 +25,15 @@ public class ProjectService {
     }
 
     /**
+     * 查询指定ID的和带搜索关键字的项目信息
+     * @param map
+     * @return
+     */
+    public List<Project> selectAllProjects(Map map){
+        return projectMapper.selectAllProjects(map);
+    }
+
+    /**
      * 根据主键ID查找项目信息
      * @param id
      * @return

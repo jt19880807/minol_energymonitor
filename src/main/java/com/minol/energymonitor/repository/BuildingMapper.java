@@ -1,6 +1,6 @@
 package com.minol.energymonitor.repository;
 
-import com.minol.energymonitor.domain.entity.Area;
+import com.minol.energymonitor.domain.entity.Building;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +13,9 @@ import java.util.Map;
 @Mapper
 @Repository
 public interface BuildingMapper {
-//    List<Area> selectAreas(Map map);
-//    Area selectAreaById(int id);
-//    int batchDeleteAreas(List<Area> areas);
-//    int insertArea(Area area);
-//    int updateArea(Area area);
+    List<Building> selectBuildings(Map map);
+    Building selectBuildingById(int id);
+    int batchDeleteBuildings(List<Building> buildings);
+    int insertBuilding(Building building);
+    int updateBuilding(Building building);
 }

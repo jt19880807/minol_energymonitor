@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.minol.energymonitor.repository.AreaMapper" >
 
-    <resultMap id="BuildingResult" type="com.minol.energymonitor.domain.entity.Area">
+    <resultMap id="AreaResult" type="com.minol.energymonitor.domain.entity.Area">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="district" property="district"/>
@@ -46,17 +46,17 @@
     </select>
 
     <!--查询指定带有搜索关键字的项目-->
-    <select id="selectBuildings" parameterType="Map" resultMap="BuildingResult">
+    <select id="selectAreas" parameterType="Map" resultMap="AreaResult">
         SELECT * from <include refid="tableName"></include> where
-        <!--<if test="keywords!= null and keywords != ''">&lt;!&ndash;关键词搜索&ndash;&gt;-->
-            <!--(-->
-            <!--name LIKE CONCAT(CONCAT('%', #{keywords}),'%')-->
-            <!--or-->
-            <!--district LIKE CONCAT(CONCAT('%', #{keywords}),'%')-->
-            <!--or-->
-            <!--address LIKE CONCAT(CONCAT('%', #{keywords}),'%')-->
-            <!--) AND-->
-        <!--</if>-->
+        <if test="keywords!= null and keywords != ''"><!--关键词搜索-->
+            (
+            name LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            or
+            district LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            or
+            address LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            ) AND
+        </if>
         isdeleted=0
     </select>
 
