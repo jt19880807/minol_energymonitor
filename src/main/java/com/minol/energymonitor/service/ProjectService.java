@@ -25,12 +25,12 @@ public class ProjectService {
     }
 
     /**
-     * 查询指定ID的和带搜索关键字的项目信息
+     * 查询指定ID的后者全部的项目信息(只返回ID和name)
      * @param map
      * @return
      */
-    public List<Project> selectAllProjects(Map map){
-        return projectMapper.selectAllProjects(map);
+    public List<Project> selectProjectWithIDAndName(Map map){
+        return projectMapper.selectProjectWithIDAndName(map);
     }
 
     /**

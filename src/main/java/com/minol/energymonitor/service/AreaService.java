@@ -2,6 +2,7 @@ package com.minol.energymonitor.service;
 
 import com.minol.energymonitor.domain.entity.Area;
 import com.minol.energymonitor.domain.entity.Area;
+import com.minol.energymonitor.domain.entity.Project;
 import com.minol.energymonitor.repository.AreaMapper;
 import com.minol.energymonitor.repository.AreaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,15 @@ public class AreaService {
      */
     public List<Area> selectAreas(Map map){
         return areaMapper.selectAreas(map);
+    }
+
+    /**
+     * 查询指定ID项目的相关小区信息或者全部小区信息（只返回ID和name）
+     * @param map
+     * @return
+     */
+    public List<Area> selectAreaWithIDAndName(Map map){
+        return areaMapper.selectAreaWithIDAndName(map);
     }
 
     /**

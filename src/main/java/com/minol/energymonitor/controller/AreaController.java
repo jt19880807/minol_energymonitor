@@ -3,6 +3,7 @@ package com.minol.energymonitor.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minol.energymonitor.domain.entity.Area;
+import com.minol.energymonitor.domain.entity.Project;
 import com.minol.energymonitor.service.AreaService;
 import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,22 @@ public class AreaController {
         List<Area> areas=areaService.selectAreas(map);
         return new PageInfo<Area>(areas);
     }
-
+    /**
+     * 查找指定ID或者全部项目信息（用于下拉框，只返回ID和Name）
+     * @param protectIds 指定ID，默认为1,2,3... *为查找所有项目
+     * @return
+     */
+    @GetMapping("/selectAreaWithIDAndName/{ids}")
+    public String selectAreaWithIDAndName(@PathVariable String protectIds){
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(protectIds.equals("*")){//加入ID
+            map.put("ids",'*');
+        }
+        else {
+            map.put("ids",protectIds.split(","));
+        }
+        return JsonUtils.fillResultString(0,"成功",areaService.selectAreaWithIDAndName(map));
+    }
 
     /**
      * 批量删除小区信息

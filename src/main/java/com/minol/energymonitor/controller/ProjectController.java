@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class ProjectController {
             map.put("ids",ids.split(","));
         }
         List<Project> projects=projectService.selectProjects(map);
-        return JsonUtils.fillResultString(0,"成功",projectService.selectAllProjects(map));
+        return JsonUtils.fillResultString(0,"成功",projectService.selectProjectWithIDAndName(map));
     }
 
 

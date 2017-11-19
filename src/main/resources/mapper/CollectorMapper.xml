@@ -20,7 +20,7 @@
         <!--<result column="update_by" property="update_by"/>-->
     <!--</resultMap>-->
 
-    <!--<select id="selectAllProjects" resultMap="ProjectResult">-->
+    <!--<select id="selectProjectWithIDAndName" resultMap="ProjectResult">-->
         <!--SELECT * FROM project WHERE isdeleted=0-->
     <!--</select>-->
 
@@ -45,7 +45,7 @@
         <!--<result column="update_by" property="update_by"/>-->
     <!--</resultMap>-->
 
-    <!--<select id="selectAllProjects" resultMap="ProjectResult">-->
+    <!--<select id="selectProjectWithIDAndName" resultMap="ProjectResult">-->
         <!--SELECT * FROM project WHERE isdeleted=0-->
     <!--</select>-->
 

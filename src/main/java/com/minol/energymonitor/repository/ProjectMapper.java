@@ -14,7 +14,7 @@ import java.util.Map;
 @Repository
 public interface ProjectMapper {
     List<Project> selectProjects(Map map);
-    List<Project> selectAllProjects(Map map);
+    List<Project> selectProjectWithIDAndName(Map map);
     Project selectProjectById(int id);
     int batchDeleteProjects(List<Project> projects);
     int insertProject(Project project);

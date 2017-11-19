@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.minol.energymonitor.repository.AreaMapper" >
-
+    <!--数据全部-->
     <resultMap id="AreaResult" type="com.minol.energymonitor.domain.entity.Area">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -12,6 +12,11 @@
         <result column="update_time" property="update_time"/>
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
+    </resultMap>
+    <!--下拉框返回结果-->
+    <resultMap id="AreaResult_Select" type="com.minol.energymonitor.domain.entity.Area">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -43,6 +48,19 @@
     <!--根据主键ID查询小区信息-->
     <select id="selectAreaById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Area">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+
+    <!--查找所有的项目信息，只返回ID和name-->
+    <select id="selectAllProjects" parameterType="Map" resultMap="ProjectResult_Select">
+        SELECT id,name from <include refid="tableName"></include> where
+        <if test="ids!= '*'"> <!--搜索指定的id-->
+            id IN
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND
+        </if>
+        isdeleted=0
     </select>
 
     <!--查询指定带有搜索关键字的项目-->
@@ -89,4 +107,5 @@
         update_by=#{update_by}
         WHERE id=#{id}
     </update>
+
 </mapper>

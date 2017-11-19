@@ -73,7 +73,7 @@
     </select>
 
     <!--查询指定ID范围的并且带有搜索关键字的项目-->
-    <select id="selectProjects" parameterType="Map" resultMap="ProjectResult">
+    <select id="selectProject" parameterType="Map" resultMap="ProjectResult">
         SELECT * from <include refid="tableName"></include> where 
         <if test="ids!= '*'"> <!--搜索指定的id-->
             id IN
@@ -103,17 +103,25 @@
         </if>
          isdeleted=0
     </select>
+
     <!--查找所有的项目信息，只返回ID和name-->
-    <select id="selectAllProjects" parameterType="Map" resultMap="ProjectResult_Select">
-        SELECT id,name from <include refid="tableName"></include> where
+    <select id="selectAreaWithIDAndName" parameterType="Map" resultMap="AreaResult_Select">
         <if test="ids!= '*'"> <!--搜索指定的id-->
+            SELECT DISTINCT (a.id,a.name) from area a
+            LEFT JOIN building b ON b.area_id=a.id
+            LEFT JOIN protect p ON b.protect_id=p.id
+            where
             id IN
             <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
             AND
+            isdeleted=0
         </if>
-        isdeleted=0
+        <if test="ids=='*'">
+            SELECT id,name from area WHERE isdeleted=0
+        </if>
+
     </select>
 
     <!--批量删除-->
