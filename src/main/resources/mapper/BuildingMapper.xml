@@ -17,7 +17,7 @@
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
         <association property="project" column="project_id" select="com.minol.energymonitor.repository.ProjectMapper.selectProjectById"/>
-        <association property="area" column="area_id" select="com.minol.energymonitor.repository.BuildingMapper.selectBuildingById"/>
+        <association property="area" column="area_id" select="com.minol.energymonitor.repository.AreaMapper.selectAreaById"/>
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -25,7 +25,7 @@
     </sql>
 
     <sql id="field">
-        name
+        name,
         project_id,
         area_id,
         building_years,
@@ -54,7 +54,6 @@
         #{update_time},
         #{create_by},
         #{update_by}
-update_by
     </sql>
 
     <!--根据主键ID查询楼栋信息-->
@@ -64,11 +63,15 @@ update_by
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectBuildings" parameterType="Map" resultMap="BuildingResult">
         SELECT * from <include refid="tableName"></include> where
-        <if test="ids!= '*'"> <!--搜索指定的id-->
-            id IN
-            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+        <if test="projectIds!= '*'"> <!--搜索指定的id-->
+            project_id IN
+            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
                 #{item}
             </foreach>
+            AND
+        </if>
+        <if test="areaId!=0"> <!--搜索指定的id-->
+            area_id=#{areaId}
             AND
         </if>
         isdeleted=0
@@ -98,15 +101,15 @@ update_by
         UPDATE <include refid="tableName"></include>
         SET
         name=#{name},
-        project_id=#{name},
-        area_id=#{name},
-        building_years=#{name},
-        building_height=#{name},
-        house_count=#{name},
-        heating_area=#{name},
-        building_type=#{name},
-        isdeleted=#{name},
-        update_by=#{name}
+        project_id=#{project_id},
+        area_id=#{area_id},
+        building_years=#{building_years},
+        building_height=#{building_height},
+        house_count=#{house_count},
+        heating_area=#{heating_area},
+        building_type=#{building_type},
+        isdeleted=#{isdeleted},
+        update_by=#{update_by}
         WHERE id=#{id}
     </update>
 

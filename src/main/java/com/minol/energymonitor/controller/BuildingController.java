@@ -21,23 +21,25 @@ public class BuildingController {
 
     /**
      * 分页查找指定ID楼栋信息
-     * @param ids 指定ID，默认为1,2,3... *为查找所有楼栋
+     * @param projectIds 指定ID，默认为1,2,3... *为查找所有楼栋
      * @param num 当前页码
      * @param size 每页数量
      * @return
      */
-    @GetMapping("/buildings/{ids}")
-    public PageInfo<Building> selectBuildings(@PathVariable String ids,
+    @GetMapping("/buildings/{projectIds}")
+    public PageInfo<Building> selectBuildings(@PathVariable String projectIds,
+                                            @RequestParam int areaId,
                                             @RequestParam int num,
                                             @RequestParam int size){
         PageHelper.startPage(num,size);//分页语句
         Map<String, Object> map = new HashMap<String, Object>();
-        if(ids.equals("*")){//加入ID
-            map.put("ids",'*');
+        if(projectIds.equals("*")){//加入ID
+            map.put("projectIds",'*');
         }
         else {
-            map.put("ids",ids.split(","));
+            map.put("projectIds",projectIds.split(","));
         }
+        map.put("areaId",areaId);
         List<Building> buildings=buildingService.selectBuildings(map);
         return new PageInfo<Building>(buildings);
     }

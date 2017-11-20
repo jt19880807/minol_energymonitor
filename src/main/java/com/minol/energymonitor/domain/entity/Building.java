@@ -16,7 +16,7 @@ public class Building extends BaseEntity {
     /**
      * 建筑年限
      */
-    private String building_years;
+    private int building_years;
     /**
      * 建筑高度
      */
@@ -66,11 +66,11 @@ public class Building extends BaseEntity {
         this.area_id = area_id;
     }
 
-    public String getBuilding_years() {
+    public int getBuilding_years() {
         return building_years;
     }
 
-    public void setBuilding_years(String building_years) {
+    public void setBuilding_years(int building_years) {
         this.building_years = building_years;
     }
 

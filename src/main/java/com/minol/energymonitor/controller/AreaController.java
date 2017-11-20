@@ -44,7 +44,7 @@ public class AreaController {
      * @param protectIds 指定ID，默认为1,2,3... *为查找所有项目
      * @return
      */
-    @GetMapping("/selectAreaWithIDAndName/{ids}")
+    @GetMapping("/selectAreaWithIDAndName/{protectIds}")
     public String selectAreaWithIDAndName(@PathVariable String protectIds){
         Map<String, Object> map = new HashMap<String, Object>();
         if(protectIds.equals("*")){//加入ID

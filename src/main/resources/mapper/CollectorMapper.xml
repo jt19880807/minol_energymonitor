@@ -1,56 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.minol.energymonitor.repository.ProjectMapper" >
-    <!--<resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Project">-->
-        <!--<id column="id" property="id"/>-->
-        <!--<result column="name" property="name"/>-->
-        <!--<result column="principal" property="principal"/>-->
-        <!--<result column="contact" property="contact"/>-->
-        <!--<result column="party_a" property="party_a"/>-->
-        <!--<result column="construction_unit" property="construction_unit"/>-->
-        <!--<result column="supervisor_unit" property="supervisor_unit"/>-->
-        <!--<result column="design_unit" property="design_unit"/>-->
-        <!--<result column="use_unit" property="use_unit"/>-->
-        <!--<result column="district" property="district"/>-->
-        <!--<result column="address" property="address"/>-->
-        <!--<result column="isdeleted" property="isdeleted"/>-->
-        <!--<result column="create_time" property="create_time"/>-->
-        <!--<result column="update_time" property="update_time"/>-->
-        <!--<result column="create_by" property="create_by"/>-->
-        <!--<result column="update_by" property="update_by"/>-->
-    <!--</resultMap>-->
+    <resultMap id="CollectorResult" type="com.minol.energymonitor.domain.entity.Collector">
+        <id column="id" property="id"/>
+        <result column="number" property="number"/>
+        <result column="building_id" property="building_id"/>
+        <result column="current_version" property="current_version"/>
+        <result column="last_version" property="last_version"/>
+        <result column="isdeleted" property="isdeleted"/>
+        <result column="create_time" property="create_time"/>
+        <result column="update_time" property="update_time"/>
+        <result column="create_by" property="create_by"/>
+        <result column="update_by" property="update_by"/>
+    </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        collector
+    </sql>
 
-    <!--<select id="selectProjectWithIDAndName" resultMap="ProjectResult">-->
-        <!--SELECT * FROM project WHERE isdeleted=0-->
-    <!--</select>-->
+    <sql id="field">
+        number,
+        building_id,
+        current_version,
+        last_version,
+        isdeleted,
+        create_time,
+        update_time,
+        create_by,
+        update_by
+    </sql>
 
-    <!--<select id="selectRoleByIds" parameterType="String" resultType="ProjectResult">-->
-        <!--SELECT * from project where id IN #{id}-->
-    <!--</select><resultMap id="ProjectResult" type="com.minol.energymonitor.domain.entity.Project">-->
-        <!--<id column="id" property="id"/>-->
-        <!--<result column="name" property="name"/>-->
-        <!--<result column="principal" property="principal"/>-->
-        <!--<result column="contact" property="contact"/>-->
-        <!--<result column="party_a" property="party_a"/>-->
-        <!--<result column="construction_unit" property="construction_unit"/>-->
-        <!--<result column="supervisor_unit" property="supervisor_unit"/>-->
-        <!--<result column="design_unit" property="design_unit"/>-->
-        <!--<result column="use_unit" property="use_unit"/>-->
-        <!--<result column="district" property="district"/>-->
-        <!--<result column="address" property="address"/>-->
-        <!--<result column="isdeleted" property="isdeleted"/>-->
-        <!--<result column="create_time" property="create_time"/>-->
-        <!--<result column="update_time" property="update_time"/>-->
-        <!--<result column="create_by" property="create_by"/>-->
-        <!--<result column="update_by" property="update_by"/>-->
-    <!--</resultMap>-->
+    <sql id="fieldValue">
+        #{number},
+        #{building_id},
+        #{current_version},
+        #{last_version},
+        #{isdeleted},
+        #{create_time},
+        #{update_time},
+        #{create_by},
+        #{update_by}
+    </sql>
 
-    <!--<select id="selectProjectWithIDAndName" resultMap="ProjectResult">-->
-        <!--SELECT * FROM project WHERE isdeleted=0-->
-    <!--</select>-->
-
-    <!--<select id="selectRoleByIds" parameterType="String" resultType="ProjectResult">-->
-        <!--SELECT * from project where id IN #{id}-->
-    <!--</select>-->
+    <!--根据主键ID查询采集器信息-->
+    <select id="selectCollectorById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Collector">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+    <!--查询指定ID范围的楼栋信息-->
+    <select id="selectCollectors" parameterType="Map" resultMap="BuildingResult">
+        SELECT * from collector c,building b,area a, project p where
+        <if test="projectIds!= '*'"> <!--搜索指定的id-->
+            project_id IN
+            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND
+        </if>
+        <if test="areaId!=0"> <!--搜索指定的id-->
+            area_id=#{areaId}
+            AND
+        </if>
+        isdeleted=0
+    </select>
 
 </mapper>

@@ -89,27 +89,6 @@ public class ProjectController {
         return JsonUtils.fillResultString(0,"成功",result);
     }
 
-//    /**
-//     * 修改一条数据
-//     * @param id
-//     * @param name
-//     * @param principal
-//     * @return
-//     */
-//    @PutMapping("/project/{id}")
-//    public String updateProject(@PathVariable int id,
-//                                @RequestParam(name = "name",required = false) String name,
-//                                @RequestParam(name = "principal",required = false) String principal){
-//        Project project=new Project();
-//        project.setId(id);
-//        project.setName(name);
-//        project.setPrincipal(principal);
-//        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
-//        project.setUpdate_time(timestamp);
-//        int result=projectService.updateProject(project);
-//        return JsonUtils.fillResultString(0,"成功",result);
-//    }
-
     /**
      * 修改一条数据
      * @param id
