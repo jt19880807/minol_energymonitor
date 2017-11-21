@@ -19,6 +19,13 @@
         <association property="project" column="project_id" select="com.minol.energymonitor.repository.ProjectMapper.selectProjectById"/>
         <association property="area" column="area_id" select="com.minol.energymonitor.repository.AreaMapper.selectAreaById"/>
     </resultMap>
+
+    <!--下拉框返回结果-->
+    <resultMap id="BuildingResult_Select" type="com.minol.energymonitor.domain.entity.Building">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
     <!--表名 -->
     <sql id="tableName">
         building
@@ -60,6 +67,29 @@
     <select id="selectBuildingById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Building">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
+    <!--根据项目ID或者小区ID查找下面的楼栋,仅返回ID和Name-->
+    <select id="selectBuildingWithIDAndName" parameterType="Map" resultMap="BuildingResult_Select">
+        SELECT id,name from <include refid="tableName"></include> where
+        <if test="projectIds!= '*'"> <!--搜索指定的id-->
+            project_id IN
+            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+            AND
+        </if>
+        <if test="areaId!=0"> <!--搜索指定的id-->
+            area_id=#{areaId}
+            AND
+        </if>
+        isdeleted=0
+    </select>
+    <!--根据项目ID查找下面的楼栋，名字以xx小区xx号楼格式-->
+    <select id="selectBuildingWithIDAndAreaName" parameterType="int" resultType="com.minol.energymonitor.domain.model.TreeModel">
+        SELECT b.id,CONCAT(a.name,b.name) as title from building b LEFT JOIN area a on b.area_id=a.id where
+        b.project_id=#{projectId} AND
+        b.isdeleted=0 AND a.isdeleted=0
+    </select>
+
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectBuildings" parameterType="Map" resultMap="BuildingResult">
         SELECT * from <include refid="tableName"></include> where

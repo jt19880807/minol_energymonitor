@@ -48,10 +48,10 @@ public class AreaController {
     public String selectAreaWithIDAndName(@PathVariable String protectIds){
         Map<String, Object> map = new HashMap<String, Object>();
         if(protectIds.equals("*")){//加入ID
-            map.put("ids",'*');
+            map.put("projectIds",'*');
         }
         else {
-            map.put("ids",protectIds.split(","));
+            map.put("projectIds",protectIds.split(","));
         }
         return JsonUtils.fillResultString(0,"成功",areaService.selectAreaWithIDAndName(map));
     }

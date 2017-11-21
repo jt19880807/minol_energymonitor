@@ -2,23 +2,31 @@ package com.minol.energymonitor.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.minol.energymonitor.domain.entity.Area;
+import com.minol.energymonitor.domain.entity.Building;
 import com.minol.energymonitor.domain.entity.Project;
+import com.minol.energymonitor.domain.model.AreaModel;
+import com.minol.energymonitor.domain.model.ProjectModel;
+import com.minol.energymonitor.domain.model.TreeModel;
+import com.minol.energymonitor.service.AreaService;
+import com.minol.energymonitor.service.BuildingService;
 import com.minol.energymonitor.service.ProjectService;
 import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class ProjectController {
 
     @Autowired
     ProjectService projectService;
-
+    @Autowired
+    AreaService areaService;
+    @Autowired
+    BuildingService buildingService;
     /**
      * 分页查找指定ID和带搜索关键字的项目信息
      * @param ids 指定ID，默认为1,2,3... *为查找所有项目
@@ -35,10 +43,10 @@ public class ProjectController {
         PageHelper.startPage(num,size);//分页语句
         Map<String, Object> map = new HashMap<String, Object>();
         if(ids.equals("*")){//加入ID
-            map.put("ids",'*');
+            map.put("projectIds",'*');
         }
         else {
-            map.put("ids",ids.split(","));
+            map.put("projectIds",ids.split(","));
         }
         map.put("keywords",keywords);//加入关键字
         List<Project> projects=projectService.selectProjects(map);
@@ -54,10 +62,10 @@ public class ProjectController {
     public String selectProjects(@PathVariable String ids){
         Map<String, Object> map = new HashMap<String, Object>();
         if(ids.equals("*")){//加入ID
-            map.put("ids",'*');
+            map.put("projectIds",'*');
         }
         else {
-            map.put("ids",ids.split(","));
+            map.put("projectIds",ids.split(","));
         }
         List<Project> projects=projectService.selectProjects(map);
         return JsonUtils.fillResultString(0,"成功",projectService.selectProjectWithIDAndName(map));
@@ -113,5 +121,64 @@ public class ProjectController {
         }
         int result=projectService.updateProject(mproject);
         return JsonUtils.fillResultString(0,"成功",result);
+    }
+
+    @GetMapping("/projectree/{ids}")
+    public String selectProjectTree(@PathVariable String ids){
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(ids.equals("*")){//加入ID
+            map.put("projectIds",'*');
+        }
+        else {
+            map.put("projectIds",ids.split(","));
+        }
+        List<Project> projects=projectService.selectProjects(map);
+        List<Area> areas=new ArrayList<>();
+        areas= areaService.selectAreaWithIDAndName(map);
+        List<TreeModel> projectModels=new ArrayList<>();
+        TreeModel projectModel;
+        List<TreeModel> areaModels=new ArrayList<>();
+        TreeModel areaModel;
+        List<Building> buildings=new ArrayList<>();
+        List<TreeModel> buildingModels=new ArrayList<>();
+        TreeModel buildingModel;
+        if (projects.size()>0){
+            for (int i = 0; i < projects.size(); i++) {
+                projectModel=new TreeModel();
+                projectModel.setTitle(projects.get(i).getName());
+                projectModel.setId(projects.get(i).getId());
+                projectModel.setType("project");
+                projectModel.setExpand(true);
+                //map = new HashMap<String, Object>();
+                map.put("projectIds",new String[]{projects.get(i).getId()+""});
+                areas= areaService.selectAreaWithIDAndName(map);
+                if (areas.size()>0) {
+                    areaModels=new ArrayList<>();
+                    for (int j = 0; j < areas.size(); j++) {
+                        areaModel = new TreeModel();
+                        areaModel.setId(areas.get(j).getId());
+                        areaModel.setTitle(areas.get(j).getName());
+                        areaModel.setType("area");
+                        map.put("areaId", areas.get(j).getId() + "");
+                        buildings = buildingService.selectBuildingWithIDAndName(map);
+                        buildingModels = new ArrayList<>();
+                        if (buildings.size() > 0) {
+                            for (int k = 0; k < buildings.size(); k++) {
+                                buildingModel = new TreeModel();
+                                buildingModel.setId(buildings.get(k).getId());
+                                buildingModel.setTitle(buildings.get(k).getName());
+                                buildingModel.setType("building");
+                                buildingModels.add(buildingModel);
+                            }
+                            areaModel.setChildren(buildingModels);
+                        }
+                        areaModels.add(areaModel);
+                    }
+                    projectModel.setChildren(areaModels);
+                }
+                projectModels.add(projectModel);
+            }
+        }
+        return JsonUtils.fillResultString(0,"成功",projectModels);
     }
 }

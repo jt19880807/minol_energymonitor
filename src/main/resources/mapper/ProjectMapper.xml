@@ -75,9 +75,9 @@
     <!--查询指定ID范围的并且带有搜索关键字的项目-->
     <select id="selectProjects" parameterType="Map" resultMap="ProjectResult">
         SELECT * from <include refid="tableName"></include> where 
-        <if test="ids!= '*'"> <!--搜索指定的id-->
+        <if test="projectIds!= '*'"> <!--搜索指定的id-->
             id IN
-            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
                 #{item}
             </foreach>
             AND
@@ -107,9 +107,9 @@
     <!--查找所有的项目信息，只返回ID和name-->
     <select id="selectProjectWithIDAndName" parameterType="Map" resultMap="ProjectResult_Select">
         SELECT id,name from <include refid="tableName"></include> where
-        <if test="ids!= '*'"> <!--搜索指定的id-->
+        <if test="projectIds!= '*'"> <!--搜索指定的id-->
             id IN
-            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
                 #{item}
             </foreach>
             AND

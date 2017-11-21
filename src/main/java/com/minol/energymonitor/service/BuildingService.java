@@ -1,6 +1,7 @@
 package com.minol.energymonitor.service;
 
 import com.minol.energymonitor.domain.entity.Building;
+import com.minol.energymonitor.domain.model.TreeModel;
 import com.minol.energymonitor.repository.BuildingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,23 @@ public class BuildingService {
      */
     public List<Building> selectBuildings(Map map){
         return buildingMapper.selectBuildings(map);
+    }
+    /**
+     * 根据项目ID或者小区ID查找下面的楼栋,仅返回ID和Name
+     * @param map
+     * @return
+     */
+    public List<Building> selectBuildingWithIDAndName(Map map){
+        return buildingMapper.selectBuildingWithIDAndName(map);
+    }
+
+    /**
+     * 根据项目ID查找下面的楼栋，名字以xx小区xx号楼格式
+     * @param projectId
+     * @return
+     */
+    public List<TreeModel> selectBuildingWithIDAndAreaName(int projectId){
+        return buildingMapper.selectBuildingWithIDAndAreaName(projectId);
     }
 
     /**

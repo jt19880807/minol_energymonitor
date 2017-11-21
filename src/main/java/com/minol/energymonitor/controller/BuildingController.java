@@ -44,7 +44,15 @@ public class BuildingController {
         return new PageInfo<Building>(buildings);
     }
 
-
+    /**
+     * 根据项目ID查找下面的楼栋，名字以xx小区xx号楼格式
+     * @param projectId 项目ID
+     * @return
+     */
+    @GetMapping("/buildingWithIDAndAreaName/{projectId}")
+    public String selectBuildingWithIDAndAreaName(@PathVariable int projectId){
+        return JsonUtils.fillResultString(0,"成功", buildingService.selectBuildingWithIDAndAreaName(projectId));
+    }
     /**
      * 批量删除楼栋信息
      * @param buildings
@@ -94,4 +102,6 @@ public class BuildingController {
         int result=buildingService.updateBuilding(mbuilding);
         return JsonUtils.fillResultString(0,"成功",result);
     }
+
+
 }

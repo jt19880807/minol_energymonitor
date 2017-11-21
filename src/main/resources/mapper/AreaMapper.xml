@@ -53,19 +53,19 @@
 
 
     <select id="selectAreaWithIDAndName" parameterType="Map" resultMap="AreaResult_Select">
-        <if test="ids!= '*'"> <!--搜索指定的id-->
-            SELECT DISTINCT (a.id,a.name) from area a
+        <if test="projectIds!= '*'"> <!--搜索指定的id-->
+            SELECT DISTINCT (a.id),a.name from area a
             LEFT JOIN building b ON b.area_id=a.id
-            LEFT JOIN protect p ON b.protect_id=p.id
+            LEFT JOIN project p ON b.project_id=p.id
             where
-            id IN
-            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            p.id IN
+            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
                 #{item}
             </foreach>
             AND
-            isdeleted=0
+            b.isdeleted=0
         </if>
-        <if test="ids=='*'">
+        <if test="projectIds=='*'">
             SELECT id,name from area WHERE isdeleted=0
         </if>
 
