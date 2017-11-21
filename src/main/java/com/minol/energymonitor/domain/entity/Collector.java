@@ -19,6 +19,16 @@ public class Collector extends BaseEntity {
      */
     private int last_version;
 
+    private Building building;
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
     public String getNumber() {
         return number;
     }

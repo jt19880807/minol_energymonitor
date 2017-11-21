@@ -67,6 +67,7 @@
     <select id="selectBuildingById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Building">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
+
     <!--根据项目ID或者小区ID查找下面的楼栋,仅返回ID和Name-->
     <select id="selectBuildingWithIDAndName" parameterType="Map" resultMap="BuildingResult_Select">
         SELECT id,name from <include refid="tableName"></include> where
@@ -83,6 +84,7 @@
         </if>
         isdeleted=0
     </select>
+
     <!--根据项目ID查找下面的楼栋，名字以xx小区xx号楼格式-->
     <select id="selectBuildingWithIDAndAreaName" parameterType="int" resultType="com.minol.energymonitor.domain.model.TreeModel">
         SELECT b.id,CONCAT(a.name,b.name) as title from building b LEFT JOIN area a on b.area_id=a.id where

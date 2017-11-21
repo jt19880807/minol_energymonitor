@@ -12,6 +12,7 @@
         <result column="update_time" property="update_time"/>
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
+        <association property="building" column="building_id" select="com.minol.energymonitor.repository.CollectorMapper.selectCollectorById"/>
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -21,8 +22,6 @@
     <sql id="field">
         number,
         building_id,
-        current_version,
-        last_version,
         isdeleted,
         create_time,
         update_time,
@@ -33,8 +32,6 @@
     <sql id="fieldValue">
         #{number},
         #{building_id},
-        #{current_version},
-        #{last_version},
         #{isdeleted},
         #{create_time},
         #{update_time},
@@ -48,19 +45,50 @@
     </select>
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectCollectors" parameterType="Map" resultMap="CollectorResult">
-        SELECT * from collector c,building b,area a, project p where
-        <if test="projectIds!= '*'"> <!--搜索指定的id-->
-            project_id IN
-            <foreach item="item" index="index" collection="projectIds" open="(" separator="," close=")">
-                #{item}
-            </foreach>
+        SELECT * from collector c,building b where
+        c.building_id=b.id AND
+        <if test="projectIds= '0'"> <!--搜索指定的id-->
+            b.project_id=#{projectId}
             AND
         </if>
         <if test="areaId!=0"> <!--搜索指定的id-->
-            area_id=#{areaId}
+            b.area_id=#{areaId}
+            AND
+        </if>
+        <if test="buildingId!=0"> <!--搜索指定的id-->
+            b.area_id=#{buildingId}
             AND
         </if>
         isdeleted=0
     </select>
 
+    <!--批量删除-->
+    <update id="batchDeleteCollectors" parameterType="java.util.List">
+        UPDATE <include refid="tableName"></include>
+        SET isdeleted=1
+        WHERE id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <!--插入一条楼栋信息-->
+    <insert id="insertCollector" parameterType="com.minol.energymonitor.domain.entity.Collector">
+        INSERT <include refid="tableName"></include> (
+        <include refid="field"></include>
+        ) VALUES (
+        <include refid="fieldValue"></include>
+        )
+    </insert>
+
+    <!--修改楼栋信息-->
+    <update id="updateCollector" parameterType="com.minol.energymonitor.domain.entity.Collector">
+        UPDATE <include refid="tableName"></include>
+        SET
+        number=#{number},
+        building_id=#{building_id},
+        isdeleted=#{isdeleted},
+        update_by=#{update_by}
+        WHERE id=#{id}
+    </update>
 </mapper>
