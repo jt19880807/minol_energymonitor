@@ -1,7 +1,6 @@
 package com.minol.energymonitor.service;
 
 import com.minol.energymonitor.domain.entity.Collector;
-import com.minol.energymonitor.domain.model.TreeModel;
 import com.minol.energymonitor.repository.CollectorMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import java.util.Map;
  */
 @Service
 public class CollectorService {
+
     @Autowired
     CollectorMapper collectorMapper;
     /**
@@ -23,6 +23,13 @@ public class CollectorService {
      */
     public List<Collector> selectCollectors(Map map){
         return collectorMapper.selectCollectors(map);
+    } /**
+     * 查询指定ID的楼栋信息
+     * @param map
+     * @return
+     */
+    public List<Collector> selectCollectorWithIDAndNumber(Map map){
+        return collectorMapper.selectCollectorWithIDAndNumber(map);
     }
 
     /**

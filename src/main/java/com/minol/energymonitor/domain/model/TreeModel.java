@@ -7,6 +7,53 @@ public class TreeModel {
     private String title;
     private String type;
     private boolean expand;
+    private boolean selected;
+    private int projectId;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    private int areaId;
+    private int buildingId;
+
+    public int getCollectorId() {
+        return collectorId;
+    }
+
+    public void setCollectorId(int collectorId) {
+        this.collectorId = collectorId;
+    }
+
+    private int collectorId;
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+    public int getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(int areaId) {
+        this.areaId = areaId;
+    }
+
+    public int getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(int buildingId) {
+        this.buildingId = buildingId;
+    }
 
     public boolean isExpand() {
         return expand;

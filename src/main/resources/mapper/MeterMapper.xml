@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.minol.energymonitor.repository.CollectorMapper" >
-    <resultMap id="CollectorResult" type="com.minol.energymonitor.domain.entity.Collector">
+<mapper namespace="com.minol.energymonitor.repository.MeterMapper" >
+    <resultMap id="MeterResult" type="com.minol.energymonitor.domain.entity.Meter">
         <id column="id" property="id"/>
         <result column="number" property="number"/>
-        <result column="building_id" property="building_id"/>
-        <result column="current_version" property="current_version"/>
-        <result column="last_version" property="last_version"/>
+        <result column="collector_id" property="collector_id"/>
+        <result column="meter_type" property="meter_type"/>
+        <result column="factory" property="factory"/>
+        <result column="model" property="model"/>
+        <result column="position" property="position"/>
+        <result column="doorNum" property="doorNum"/>
         <result column="isdeleted" property="isdeleted"/>
         <result column="create_time" property="create_time"/>
         <result column="update_time" property="update_time"/>
         <result column="create_by" property="create_by"/>
         <result column="update_by" property="update_by"/>
-        <association property="building" column="building_id" select="com.minol.energymonitor.repository.BuildingMapper.selectBuildingById"/>
+        <association property="collector" column="collector_id" select="com.minol.energymonitor.repository.CollectorMapper.selectCollectorById"/>
     </resultMap>
-    <!--下拉框返回结果-->
-    <resultMap id="CollectorResult_Select" type="com.minol.energymonitor.domain.entity.Building">
-        <id column="id" property="id"/>
-        <result column="number" property="number"/>
-    </resultMap>
+
+
     <!--表名 -->
     <sql id="tableName">
-        collector
+        meter
     </sql>
 
     <sql id="field">
         number,
-        building_id,
+        collector_id,
+        meter_type,
+        factory,
+        model,
+        position,
+        doorNum,
         isdeleted,
         create_time,
         update_time,
@@ -36,7 +41,12 @@
 
     <sql id="fieldValue">
         #{number},
-        #{building_id},
+        #{collector_id},
+        #{meter_type},
+        #{factory},
+        #{model},
+        #{position},
+        #{doorNum},
         #{isdeleted},
         #{create_time},
         #{update_time},
@@ -45,12 +55,13 @@
     </sql>
 
     <!--根据主键ID查询采集器信息-->
-    <select id="selectCollectorById"  parameterType="int" resultMap="CollectorResult">
+    <select id="selectMeterById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Meter">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
+
     <!--查询指定ID范围的楼栋信息-->
-    <select id="selectCollectors" parameterType="Map" resultMap="CollectorResult">
-        SELECT * from collector c,building b where
+    <select id="selectMeters" parameterType="Map" resultMap="MeterResult">
+        SELECT * from meter c,building b where
         c.building_id=b.id AND
         <if test="projectIds= '0'"> <!--搜索指定的id-->
             b.project_id=#{projectId}
@@ -67,27 +78,10 @@
         c.isdeleted=0 AND b.isdeleted=0
     </select>
 
-    <!--根据项目ID或者小区ID或者楼栋ID查找下面的采集器,仅返回ID和Number-->
-    <select id="selectCollectorWithIDAndNumber" parameterType="Map" resultMap="CollectorResult_Select">
-        SELECT c.id,c.number from collector c,building b where
-        c.building_id=b.id AND
-        <if test="projectIds= '0'"> <!--搜索指定的id-->
-            b.project_id=#{projectId}
-            AND
-        </if>
-        <if test="areaId!=0"> <!--搜索指定的id-->
-            b.area_id=#{areaId}
-            AND
-        </if>
-        <if test="buildingId!=0"> <!--搜索指定的id-->
-            b.id=#{buildingId}
-            AND
-        </if>
-        c.isdeleted=0 AND b.isdeleted=0
-    </select>
+
 
     <!--批量删除-->
-    <update id="batchDeleteCollectors" parameterType="java.util.List">
+    <update id="batchDeleteMeters" parameterType="java.util.List">
         UPDATE <include refid="tableName"></include>
         SET isdeleted=1
         WHERE id in
@@ -97,7 +91,7 @@
     </update>
 
     <!--插入一条楼栋信息-->
-    <insert id="insertCollector" parameterType="com.minol.energymonitor.domain.entity.Collector">
+    <insert id="insertMeter" parameterType="com.minol.energymonitor.domain.entity.Meter">
         INSERT <include refid="tableName"></include> (
         <include refid="field"></include>
         ) VALUES (
@@ -106,11 +100,16 @@
     </insert>
 
     <!--修改楼栋信息-->
-    <update id="updateCollector" parameterType="com.minol.energymonitor.domain.entity.Collector">
+    <update id="updateMeter" parameterType="com.minol.energymonitor.domain.entity.Meter">
         UPDATE <include refid="tableName"></include>
         SET
         number=#{number},
-        building_id=#{building_id},
+        collector_id=#{collector_id},
+        meter_type=#{meter_type},
+        factory=#{factory},
+        model=#{model},
+        position=#{position},
+        doorNum=#{doorNum},
         isdeleted=#{isdeleted},
         update_by=#{update_by}
         WHERE id=#{id}

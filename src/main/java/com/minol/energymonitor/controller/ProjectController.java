@@ -149,6 +149,9 @@ public class ProjectController {
                 projectModel.setId(projects.get(i).getId());
                 projectModel.setType("project");
                 projectModel.setExpand(true);
+                if (i==0){
+                    projectModel.setSelected(true);
+                }
                 //map = new HashMap<String, Object>();
                 map.put("projectIds",new String[]{projects.get(i).getId()+""});
                 areas= areaService.selectAreaWithIDAndName(map);
@@ -159,6 +162,7 @@ public class ProjectController {
                         areaModel.setId(areas.get(j).getId());
                         areaModel.setTitle(areas.get(j).getName());
                         areaModel.setType("area");
+                        areaModel.setProjectId(projects.get(i).getId());
                         map.put("areaId", areas.get(j).getId() + "");
                         buildings = buildingService.selectBuildingWithIDAndName(map);
                         buildingModels = new ArrayList<>();
@@ -168,6 +172,8 @@ public class ProjectController {
                                 buildingModel.setId(buildings.get(k).getId());
                                 buildingModel.setTitle(buildings.get(k).getName());
                                 buildingModel.setType("building");
+                                buildingModel.setProjectId(projects.get(i).getId());
+                                buildingModel.setAreaId(areas.get(j).getId());
                                 buildingModels.add(buildingModel);
                             }
                             areaModel.setChildren(buildingModels);

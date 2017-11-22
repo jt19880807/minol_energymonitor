@@ -64,7 +64,7 @@
     </sql>
 
     <!--根据主键ID查询楼栋信息-->
-    <select id="selectBuildingById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Building">
+    <select id="selectBuildingById"  parameterType="int" resultMap="BuildingResult">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
 

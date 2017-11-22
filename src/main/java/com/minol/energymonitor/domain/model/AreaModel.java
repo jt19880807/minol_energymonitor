@@ -8,7 +8,6 @@ import java.util.List;
 public class AreaModel extends Area {
     private List<Building> buildings;
     private String type;
-
     public String getType() {
         return type;
     }
