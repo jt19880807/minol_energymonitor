@@ -15,7 +15,7 @@
         <association property="building" column="building_id" select="com.minol.energymonitor.repository.BuildingMapper.selectBuildingById"/>
     </resultMap>
     <!--下拉框返回结果-->
-    <resultMap id="CollectorResult_Select" type="com.minol.energymonitor.domain.entity.Building">
+    <resultMap id="CollectorResult_Select" type="com.minol.energymonitor.domain.entity.Collector">
         <id column="id" property="id"/>
         <result column="number" property="number"/>
     </resultMap>

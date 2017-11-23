@@ -33,6 +33,8 @@ public class MeterController {
     public PageInfo<Meter> selectMeters(@RequestParam int projectId,
                                             @RequestParam int areaId,
                                             @RequestParam int buildingId,
+                                            @RequestParam int collectorId,
+                                            @RequestParam int meterType,
                                             @RequestParam int num,
                                             @RequestParam int size){
         PageHelper.startPage(num,size);//分页语句
@@ -40,6 +42,8 @@ public class MeterController {
         map.put("projectId",projectId);
         map.put("areaId",areaId);
         map.put("buildingId",buildingId);
+        map.put("collectorId",collectorId);
+        map.put("meterType",meterType);
         List<Meter> meters=meterService.selectMeters(map);
         return new PageInfo<Meter>(meters);
     }
