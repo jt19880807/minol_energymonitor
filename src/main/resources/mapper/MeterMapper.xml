@@ -17,6 +17,13 @@
         <result column="update_by" property="update_by"/>
         <association property="collector" column="collector_id" select="com.minol.energymonitor.repository.CollectorMapper.selectCollectorById"/>
     </resultMap>
+
+    <!--下拉框返回结果-->
+    <resultMap id="MeterResult_Select" type="com.minol.energymonitor.domain.entity.Meter">
+        <id column="id" property="id"/>
+        <result column="number" property="number"/>
+    </resultMap>
+
     <!--表名 -->
     <sql id="tableName">
         meter
@@ -55,6 +62,27 @@
     <!--根据主键ID查询采集器信息-->
     <select id="selectMeterById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Meter">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+
+    <!--根据项目ID或者小区ID或者楼栋ID查找下面的采集器,仅返回ID和Number-->
+    <select id="selectMetersWithIDAndNumber" parameterType="Map" resultMap="MeterResult_Select">
+        SELECT m.id,m.number from meter m,collector c,building b where
+        m.collector_id=c.id AND
+        c.building_id=b.id AND
+        <if test="projectIds= '0'"> <!--搜索指定的id-->
+            b.project_id=#{projectId}
+            AND
+        </if>
+        <if test="areaId!=0"> <!--搜索指定的id-->
+            b.area_id=#{areaId}
+            AND
+        </if>
+        <if test="buildingId!=0"> <!--搜索指定的id-->
+            b.id=#{buildingId}
+            AND
+        </if>
+        m.meter_type=#{meterType} AND m.isdeleted=0 AND
+        c.isdeleted=0 AND b.isdeleted=0
     </select>
 
     <!--查询指定ID范围的楼栋信息-->

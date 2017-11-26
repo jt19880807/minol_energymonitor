@@ -17,7 +17,7 @@ public class BaseReadingEntity {
      * 读数日期
 
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
     private Timestamp date;
     /**
      * 是否删除(0：未删除 1:删除)

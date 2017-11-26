@@ -48,6 +48,7 @@
     <select id="selectCollectorById"  parameterType="int" resultMap="CollectorResult">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
+
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectCollectors" parameterType="Map" resultMap="CollectorResult">
         SELECT * from collector c,building b where

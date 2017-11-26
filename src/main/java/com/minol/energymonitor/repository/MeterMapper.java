@@ -1,5 +1,6 @@
 package com.minol.energymonitor.repository;
 
+import com.minol.energymonitor.domain.entity.Collector;
 import com.minol.energymonitor.domain.entity.Meter;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ import java.util.Map;
 @Repository
 public interface MeterMapper {
     List<Meter> selectMeters(Map map);
+    List<Meter> selectMetersWithIDAndNumber(Map map);
     Meter selectMeterById(int id);
     int batchDeleteMeters(List<Meter> meters);
     int insertMeter(Meter meter);

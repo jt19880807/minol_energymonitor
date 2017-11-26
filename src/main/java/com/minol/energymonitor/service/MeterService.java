@@ -35,6 +35,14 @@ public class MeterService {
     }
 
     /**
+     * 查询表计 只返回ID和Number
+     * @param map
+     * @return
+     */
+    public List<Meter> selectMetersWithIDAndNumber(Map map){
+        return meterMapper.selectMetersWithIDAndNumber(map);
+    }
+    /**
      * 批量删除
      * @param meters
      * @return

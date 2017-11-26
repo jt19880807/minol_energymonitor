@@ -55,6 +55,26 @@ public class MeterController {
         meters.add(meter);
         return JsonUtils.fillResultString(0,"成功",meters);
     }
+
+    /**
+     *
+     * @param projectId
+     * @param areaId
+     * @param buildingId
+     * @return
+     */
+    @GetMapping("/metersWithIDAndNumber")
+    public String selectMeterWithIDAndNumber(@RequestParam int projectId,
+                                                 @RequestParam int areaId,
+                                                 @RequestParam int buildingId){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",projectId);
+        map.put("areaId",areaId);
+        map.put("buildingId",buildingId);
+        List<Meter> collectors=meterService.selectMetersWithIDAndNumber(map);
+        return JsonUtils.fillResultString(0,"成功",collectors);
+    }
+
     /**
      * 批量删除设备表信息
      * @param meters
