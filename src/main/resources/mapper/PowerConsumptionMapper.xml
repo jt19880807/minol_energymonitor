@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minol.energymonitor.repository.PowerConsumptionMapper" >
+    <resultMap id="PowerConsumptionResult" type="com.minol.energymonitor.domain.entity.PowerConsumption">
+        <id column="id" property="id"/>
+        <result column="meter_id" property="meter_id"/>
+        <result column="date" property="date"/>
+        <result column="consumption" property="consumption"/>
+        <result column="isdeleted" property="isdeleted"/>
+        <result column="create_time" property="create_time"/>
+        <association property="meter" column="meter_id" select="com.minol.energymonitor.repository.MeterMapper.selectMeterById"/>
+    </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        powerconsumption
+    </sql>
+
+    <sql id="field">
+        meter_id,
+        date,
+        consumption,
+        isdeleted,
+        create_time
+    </sql>
+
+    <sql id="fieldValue">
+        #{meter_id},
+        #{date},
+        #{consumption},
+        #{isdeleted},
+        #{create_time}
+    </sql>
+
+    <!--根据主键ID查询耗电量信息-->
+    <select id="selectPowerConsumptionById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.PowerConsumption">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+
+    <!--查询指定ID范围的楼栋信息-->
+    <select id="selectPowerConsumptions" parameterType="Map" resultMap="PowerConsumptionResult">
+        SELECT h.id, h.meter_id,
+        h.date,
+        h.consumption,
+        h.isdeleted,
+        h.create_time from powerconsumption h, meter m,collector c,building b where
+        h.meter_id=m.id AND
+        m.collector_id=c.id AND
+        c.building_id=b.id AND
+        <if test="projectId!= 0"> <!--搜索指定的项目id-->
+            b.project_id=#{projectId}
+            AND
+        </if>
+        <if test="areaId!=0"> <!--搜索指定的小区id-->
+            b.area_id=#{areaId}
+            AND
+        </if>
+        <if test="buildingId!=0"> <!--搜索指定的楼栋id-->
+            b.id=#{buildingId}
+            AND
+        </if>
+        <if test="meterId!=0"> <!--搜索指定的表id-->
+            h.meter_id=#{meterId}
+            AND
+        </if>
+        h.date BETWEEN #{startDate} AND #{endDate} AND m.isdeleted=0 AND
+        c.isdeleted=0 AND b.isdeleted=0 AND h.isdeleted=0
+        ORDER BY h.date desc
+    </select>
+
+    <!--&lt;!&ndash;批量删除&ndash;&gt;-->
+    <!--<update id="batchDeletePowerConsumptions" parameterType="java.util.List">-->
+        <!--UPDATE <include refid="tableName"></include>-->
+        <!--SET isdeleted=1-->
+        <!--WHERE id in-->
+        <!--<foreach item="item" index="index" collection="list" open="(" separator="," close=")">-->
+            <!--#{item.id}-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+    <!--&lt;!&ndash;插入一条楼栋信息&ndash;&gt;-->
+    <!--<insert id="insertPowerConsumption" parameterType="com.minol.energymonitor.domain.entity.PowerConsumption">-->
+        <!--INSERT <include refid="tableName"></include> (-->
+        <!--<include refid="field"></include>-->
+        <!--) VALUES (-->
+        <!--<include refid="fieldValue"></include>-->
+        <!--)-->
+    <!--</insert>-->
+
+    <!--&lt;!&ndash;修改耗电量信息&ndash;&gt;-->
+    <!--<update id="updatePowerConsumption" parameterType="com.minol.energymonitor.domain.entity.PowerConsumption">-->
+        <!--UPDATE <include refid="tableName"></include>-->
+        <!--SET-->
+        <!--meter_id=#{meter_id},-->
+        <!--date=#{date},-->
+        <!--instantaneousflow=#{instantaneousflow},-->
+        <!--power=#{power},-->
+        <!--accumulationheat=#{accumulationheat},-->
+        <!--accumulationcooling=#{accumulationcooling},-->
+        <!--supplywatertemp=#{supplywatertemp},-->
+        <!--returnwatertemp=#{returnwatertemp}-->
+        <!--WHERE id=#{id}-->
+    <!--</update>-->
+</mapper>

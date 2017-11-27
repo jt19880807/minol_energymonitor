@@ -26,6 +26,9 @@ public class HeatMeterReading extends BaseReadingEntity {
      */
     private double returnwatertemp;
 
+    private Meter meter;
+
+
     public double getInstantaneousflow() {
         return instantaneousflow;
     }
@@ -72,5 +75,13 @@ public class HeatMeterReading extends BaseReadingEntity {
 
     public void setReturnwatertemp(double returnwatertemp) {
         this.returnwatertemp = returnwatertemp;
+    }
+
+    public Meter getMeter() {
+        return meter;
+    }
+
+    public void setMeter(Meter meter) {
+        this.meter = meter;
     }
 }

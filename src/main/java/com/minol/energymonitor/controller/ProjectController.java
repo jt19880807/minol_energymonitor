@@ -187,4 +187,32 @@ public class ProjectController {
         }
         return JsonUtils.fillResultString(0,"成功",projectModels);
     }
+
+    @GetMapping("/projecTreeNoChildren/{ids}")
+    public String selectProjectTreeNoChildren(@PathVariable String ids){
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(ids.equals("*")){//加入ID
+            map.put("projectIds",'*');
+        }
+        else {
+            map.put("projectIds",ids.split(","));
+        }
+        List<Project> projects=projectService.selectProjects(map);
+        List<TreeModel> projectModels=new ArrayList<>();
+        TreeModel projectModel;
+        if (projects.size()>0){
+            for (int i = 0; i < projects.size(); i++) {
+                projectModel=new TreeModel();
+                projectModel.setTitle(projects.get(i).getName());
+                projectModel.setId(projects.get(i).getId());
+                projectModel.setType("project");
+                projectModel.setExpand(true);
+                if (i==0){
+                    projectModel.setSelected(true);
+                }
+                projectModels.add(projectModel);
+            }
+        }
+        return JsonUtils.fillResultString(0,"成功",projectModels);
+    }
 }

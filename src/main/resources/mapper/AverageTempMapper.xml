@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minol.energymonitor.repository.AverageTempMapper" >
+    <resultMap id="AverageTempResult" type="com.minol.energymonitor.domain.entity.AverageTemp">
+        <id column="id" property="id"/>
+        <result column="project_id" property="project_id"/>
+        <result column="date" property="date"/>
+        <result column="indoor_averagetemp" property="indoor_averagetemp"/>
+        <result column="outdoor_averagetemp" property="outdoor_averagetemp"/>
+        <result column="indoor_maxtemp" property="indoor_maxtemp"/>
+        <result column="indoor_mintemp" property="indoor_mintemp"/>
+        <result column="indoor_averagehumidity" property="indoor_averagehumidity"/>
+        <result column="isdeleted" property="isdeleted"/>
+        <result column="create_time" property="create_time"/>
+        <association property="project" column="project_id" select="com.minol.energymonitor.repository.ProjectMapper.selectProjectById"/>
+    </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        averagetemp
+    </sql>
+
+    <sql id="field">
+        project_id,
+        date,
+        indoor_averagetemp,
+        outdoor_averagetemp,
+        indoor_maxtemp,
+        indoor_mintemp,
+        indoor_averagehumidity,
+        isdeleted,
+        create_time
+    </sql>
+
+    <sql id="fieldValue">
+        #{project_id},
+        #{date},
+        #{indoor_averagetemp},
+        #{outdoor_averagetemp},
+        #{indoor_maxtemp},
+        #{indoor_mintemp},
+        #{indoor_averagehumidity},
+        #{isdeleted},
+        #{create_time}
+    </sql>
+
+    <!--根据主键ID查询耗电量信息-->
+    <select id="selectAverageTempById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.AverageTemp">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+
+    <!--查询指定ID范围的楼栋信息-->
+    <select id="selectAverageTemps" parameterType="Map" resultMap="AverageTempResult">
+        SELECT a.* from averagetemp a where
+        <if test="projectId!= 0"> <!--搜索指定的项目id-->
+            s.project_id=#{projectId}
+            AND
+        </if>
+        a.date BETWEEN #{startDate} AND #{endDate} AND a.isdeleted=0
+        ORDER BY a.date desc
+    </select>
+
+    <!--&lt;!&ndash;批量删除&ndash;&gt;-->
+    <!--<update id="batchDeleteAverageTemps" parameterType="java.util.List">-->
+        <!--UPDATE <include refid="tableName"></include>-->
+        <!--SET isdeleted=1-->
+        <!--WHERE id in-->
+        <!--<foreach item="item" index="index" collection="list" open="(" separator="," close=")">-->
+            <!--#{item.id}-->
+        <!--</foreach>-->
+    <!--</update>-->
+
+    <!--&lt;!&ndash;插入一条楼栋信息&ndash;&gt;-->
+    <!--<insert id="insertAverageTemp" parameterType="com.minol.energymonitor.domain.entity.AverageTemp">-->
+        <!--INSERT <include refid="tableName"></include> (-->
+        <!--<include refid="field"></include>-->
+        <!--) VALUES (-->
+        <!--<include refid="fieldValue"></include>-->
+        <!--)-->
+    <!--</insert>-->
+
+    <!--&lt;!&ndash;修改耗电量信息&ndash;&gt;-->
+    <!--<update id="updateAverageTemp" parameterType="com.minol.energymonitor.domain.entity.AverageTemp">-->
+        <!--UPDATE <include refid="tableName"></include>-->
+        <!--SET-->
+        <!--meter_id=#{meter_id},-->
+        <!--date=#{date},-->
+        <!--instantaneousflow=#{instantaneousflow},-->
+        <!--power=#{power},-->
+        <!--accumulationheat=#{accumulationheat},-->
+        <!--accumulationcooling=#{accumulationcooling},-->
+        <!--supplywatertemp=#{supplywatertemp},-->
+        <!--returnwatertemp=#{returnwatertemp}-->
+        <!--WHERE id=#{id}-->
+    <!--</update>-->
+</mapper>

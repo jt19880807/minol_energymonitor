@@ -13,6 +13,7 @@
         <result column="returnwatertemp" property="returnwatertemp"/>
         <result column="isdeleted" property="isdeleted"/>
         <result column="create_time" property="create_time"/>
+        <association property="meter" column="meter_id" select="com.minol.energymonitor.repository.MeterMapper.selectMeterById"/>
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -29,7 +30,7 @@
         supplywatertemp,
         returnwatertemp,
         isdeleted,
-        create_time,
+        create_time
     </sql>
 
     <sql id="fieldValue">
@@ -42,17 +43,17 @@
         #{supplywatertemp},
         #{returnwatertemp},
         #{isdeleted},
-        #{create_time},
+        #{create_time}
     </sql>
 
     <!--根据主键ID查询热量表读数信息-->
-    <select id="selectMeterById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.HeatMeterReading">
+    <select id="selectHeatMeterReadingById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.HeatMeterReading">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
 
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectHeatMeterReadings" parameterType="Map" resultMap="HeatMeterReadingResult">
-        SELECT  h.meter_id,
+        SELECT h.id, h.meter_id,
         h.date,
         h.instantaneousflow,
         h.power,
@@ -65,7 +66,7 @@
         h.meter_id=m.id AND
         m.collector_id=c.id AND
         c.building_id=b.id AND
-        <if test="projectId= 0"> <!--搜索指定的项目id-->
+        <if test="projectId!= 0"> <!--搜索指定的项目id-->
             b.project_id=#{projectId}
             AND
         </if>
@@ -82,7 +83,7 @@
             AND
         </if>
         h.date BETWEEN #{startDate} AND #{endDate} AND m.isdeleted=0 AND
-        c.isdeleted=0 AND b.isdeleted=0
+        c.isdeleted=0 AND b.isdeleted=0 AND h.isdeleted=0
         ORDER BY h.date desc
     </select>
 

@@ -65,12 +65,14 @@ public class MeterController {
      */
     @GetMapping("/metersWithIDAndNumber")
     public String selectMeterWithIDAndNumber(@RequestParam int projectId,
-                                                 @RequestParam int areaId,
-                                                 @RequestParam int buildingId){
+                                             @RequestParam int areaId,
+                                             @RequestParam int buildingId,
+                                             @RequestParam int meterType){
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
         map.put("areaId",areaId);
         map.put("buildingId",buildingId);
+        map.put("meterType",meterType);
         List<Meter> collectors=meterService.selectMetersWithIDAndNumber(map);
         return JsonUtils.fillResultString(0,"成功",collectors);
     }
