@@ -52,7 +52,7 @@
     <select id="selectAverageTemps" parameterType="Map" resultMap="AverageTempResult">
         SELECT a.* from averagetemp a where
         <if test="projectId!= 0"> <!--搜索指定的项目id-->
-            s.project_id=#{projectId}
+            a.project_id=#{projectId}
             AND
         </if>
         a.date BETWEEN #{startDate} AND #{endDate} AND a.isdeleted=0
