@@ -51,6 +51,19 @@
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
 
+    <!--查询某个项目再某个时间段的-->
+    <select id="selectHeatByProjectId" resultType="java.lang.Double">
+      select sum(r.cha) as heat from (
+        select (max(accumulationheat)-min(accumulationheat)) as cha from heatmetereading h
+        WHERE h.meter_id in(
+          select m.id from meter m, collector c,building b
+          where m.collector_id=c.id AND c.building_id=b.id AND b.project_id=#{projectId}
+        )
+          AND h.date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY meter_id
+      ) r
+    </select>
+
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectHeatMeterReadings" parameterType="Map" resultMap="HeatMeterReadingResult">
         SELECT h.id, h.meter_id,

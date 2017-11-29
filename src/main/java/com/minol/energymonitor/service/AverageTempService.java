@@ -1,10 +1,12 @@
 package com.minol.energymonitor.service;
 
 import com.minol.energymonitor.domain.entity.AverageTemp;
+import com.minol.energymonitor.domain.model.Energy;
 import com.minol.energymonitor.repository.AverageTempMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,14 @@ public class AverageTempService {
         return averageTempMapper.selectAverageTemps(map);
     }
 
+    /**
+     * 获取指定项目的在某个时间段内的平均温度，最高温度，最低温度
+     * @param map
+     * @return
+     */
+    public Energy selectAverageTempsByProjectId(Map map){
+        return averageTempMapper.selectAverageTempsByProjectId(map);
+    }
 //    /**
 //     * 根据主键ID查找楼栋信息
 //     * @param id

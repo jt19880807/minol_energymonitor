@@ -18,4 +18,5 @@ public interface HeatMeterReadingMapper {
     int batchDeleteHeatMeterReadings(List<HeatMeterReading> heatMeterReadings);
     int insertHeatMeterReading(HeatMeterReading heatMeterReading);
     int updateHeatMeterReading(HeatMeterReading heatMeterReading);
+    double selectHeatByProjectId(Map map);
 }

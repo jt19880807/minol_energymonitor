@@ -35,6 +35,15 @@ public class HeatMeterReadingService {
     }
 
     /**
+     * 查询指定项目在某个时间段内的热耗
+     * @param map
+     * @return
+     */
+    public double selectHeatByProjectId(Map map){
+        return heatMeterReadingMapper.selectHeatByProjectId(map);
+    }
+
+    /**
      * 批量删除
      * @param heatMeterReadings
      * @return

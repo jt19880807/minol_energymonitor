@@ -14,6 +14,12 @@
         <result column="create_time" property="create_time"/>
         <association property="project" column="project_id" select="com.minol.energymonitor.repository.ProjectMapper.selectProjectById"/>
     </resultMap>
+
+    <resultMap id="EnergyResult" type="com.minol.energymonitor.domain.model.Energy">
+        <result column="averageTemp" property="averageTemp"/>
+        <result column="maxTemp" property="maxTemp"/>
+        <result column="minTemp" property="minTemp"/>
+    </resultMap>
     <!--表名 -->
     <sql id="tableName">
         averagetemp
@@ -59,6 +65,11 @@
         ORDER BY a.date desc
     </select>
 
+    <!--获取指定项目的在某个时间段内的平均温度，最高温度，最低温度-->
+    <select id="selectAverageTempsByProjectId" parameterType="Map" resultType="com.minol.energymonitor.domain.model.Energy">
+      select FORMAT(AVG(a.indoor_averagetemp),2) as averageTemp,max(a.indoor_averagetemp) as maxTemp,min(a.indoor_averagetemp) as minTemp
+      from averagetemp a WHERE a.project_id=#{projectId} and a.date BETWEEN #{startDate} AND #{endDate}
+    </select>
     <!--&lt;!&ndash;批量删除&ndash;&gt;-->
     <!--<update id="batchDeleteAverageTemps" parameterType="java.util.List">-->
         <!--UPDATE <include refid="tableName"></include>-->

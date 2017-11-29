@@ -25,6 +25,15 @@ public class PowerConsumptionService {
         return powerConsumptionMapper.selectPowerConsumptions(map);
     }
 
+    /**
+     * 获取指定项目的在某个时间段内的耗电量
+     * @param map
+     * @return
+     */
+    public Double selectPowerConsumptionByProjectId(Map map){
+        return powerConsumptionMapper.selectPowerConsumptionByProjectId(map);
+    }
+
 //    /**
 //     * 根据主键ID查找楼栋信息
 //     * @param id
