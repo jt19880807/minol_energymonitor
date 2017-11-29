@@ -45,9 +45,39 @@ public class DataAnalysisController {
         map.put("startDate",startDate);
         map.put("endDate",endDate);
         Energy energy=averageTempService.selectAverageTempsByProjectId(map);
+        //总耗热量
+        double heat=heatMeterReadingService.selectHeatByProjectId(map)*3600;
+        //总耗电量
+        double powerConsumption=powerConsumptionService.selectPowerConsumptionByProjectId(map);
+        double scop=0;
+        //scop=总耗热量/3.6/总耗电量
+        if (powerConsumption>0){
+            scop=heat/3.6/powerConsumption;
+        }
+        //总能耗=0.31*总耗电量
+        double totalEnergyConsumption=0.31*powerConsumption;
+        //常规能源供热能耗=总耗热量/燃煤锅炉效率(70%)/标准煤热值(29.307MJ/kgcc)
+        double conventionalEnergy=heat/0.7/29.307;
+        //常规能源替代量=常规能源供热能耗-总能耗
+        double replaceEnergy=conventionalEnergy-totalEnergyConsumption;
+        //CO2减排量=常规能源替代量*二氧化碳排放银子(2.6kg/kgcc)
+        double CO2=replaceEnergy*0.26;
+        //SO2减排量=常规能源替代量*二氧化硫排放银子(7.4kg/kgcc)/1000
+        double SO2=replaceEnergy*7.4/1000;
+        //氮氧化物减排量=常规能源替代量*氮氧化物排放因子（1.6kg/kgcc）/1000
+        double nitrogenOxides=replaceEnergy*1.6/1000;
+        //颗粒减排量=常规能源替代量*颗粒物排放因子（13.5kg/kgcc）/1000
+        double particulates=replaceEnergy*13.5/1000;
         if (energy!=null){
-            energy.setHeat(heatMeterReadingService.selectHeatByProjectId(map)*3600);
-            energy.setPowerConsumption(powerConsumptionService.selectPowerConsumptionByProjectId(map));
+            energy.setHeat(heat);
+            energy.setPowerConsumption(powerConsumption);
+            energy.setSCOP(scop);
+            energy.setTotalEnergyConsumption(totalEnergyConsumption);
+            energy.setConventionalEnergy(conventionalEnergy);
+            energy.setReplaceEnergy(replaceEnergy);
+            energy.setCO2(CO2);
+            energy.setNitrogenOxides(nitrogenOxides);
+            energy.setParticulates(particulates);
         }
         List<Energy> energyList=new ArrayList<>();
         energyList.add(energy);
