@@ -69,7 +69,7 @@
 
     <!--查询指定项目在某个时间段内的耗电量-->
     <select id="selectPowerConsumptionByProjectId" parameterType="Map" resultType="java.lang.Double">
-        select sum(p.consumption) as consumption  from powerconsumption p
+        select IFNULL(sum(p.consumption),-1) as consumption  from powerconsumption p
          WHERE p.meter_id in(
           select m.id from meter m, collector c,building b
           where m.collector_id=c.id AND c.building_id=b.id AND b.project_id=#{projectId}

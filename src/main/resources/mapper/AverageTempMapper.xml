@@ -19,6 +19,12 @@
         <result column="averageTemp" property="averageTemp"/>
         <result column="maxTemp" property="maxTemp"/>
         <result column="minTemp" property="minTemp"/>
+        <result column="outdoor_averageTemp" property="outdoor_averageTemp"/>
+        <result column="outdoor_maxTemp" property="outdoor_maxTemp"/>
+        <result column="outdoor_minTemp" property="outdoor_minTemp"/>
+        <result column="averageHumidity" property="averageHumidity"/>
+        <result column="maxHumidity" property="maxHumidity"/>
+        <result column="minHumidity" property="minHumidity"/>
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -67,40 +73,10 @@
 
     <!--获取指定项目的在某个时间段内的平均温度，最高温度，最低温度-->
     <select id="selectAverageTempsByProjectId" parameterType="Map" resultType="com.minol.energymonitor.domain.model.Energy">
-      select FORMAT(AVG(a.indoor_averagetemp),2) as averageTemp,max(a.indoor_averagetemp) as maxTemp,min(a.indoor_averagetemp) as minTemp
+      select FORMAT(AVG(a.indoor_averagetemp),2) as averageTemp,max(a.indoor_maxtemp) as maxTemp,min(a.indoor_mintemp) as minTemp,
+      FORMAT(AVG(a.outdoor_averagetemp),2) as outdoor_averageTemp,max(a.outdoor_averagetemp) as outdoor_maxTemp,min(a.outdoor_averagetemp) as outdoor_minTemp,
+      FORMAT(AVG(a.indoor_averagehumidity),2) as averageHumidity,max(a.indoor_averagehumidity) as maxHumidity,min(a.indoor_averagehumidity) as minHumidity
       from averagetemp a WHERE a.project_id=#{projectId} and a.date BETWEEN #{startDate} AND #{endDate}
     </select>
-    <!--&lt;!&ndash;批量删除&ndash;&gt;-->
-    <!--<update id="batchDeleteAverageTemps" parameterType="java.util.List">-->
-        <!--UPDATE <include refid="tableName"></include>-->
-        <!--SET isdeleted=1-->
-        <!--WHERE id in-->
-        <!--<foreach item="item" index="index" collection="list" open="(" separator="," close=")">-->
-            <!--#{item.id}-->
-        <!--</foreach>-->
-    <!--</update>-->
 
-    <!--&lt;!&ndash;插入一条楼栋信息&ndash;&gt;-->
-    <!--<insert id="insertAverageTemp" parameterType="com.minol.energymonitor.domain.entity.AverageTemp">-->
-        <!--INSERT <include refid="tableName"></include> (-->
-        <!--<include refid="field"></include>-->
-        <!--) VALUES (-->
-        <!--<include refid="fieldValue"></include>-->
-        <!--)-->
-    <!--</insert>-->
-
-    <!--&lt;!&ndash;修改耗电量信息&ndash;&gt;-->
-    <!--<update id="updateAverageTemp" parameterType="com.minol.energymonitor.domain.entity.AverageTemp">-->
-        <!--UPDATE <include refid="tableName"></include>-->
-        <!--SET-->
-        <!--meter_id=#{meter_id},-->
-        <!--date=#{date},-->
-        <!--instantaneousflow=#{instantaneousflow},-->
-        <!--power=#{power},-->
-        <!--accumulationheat=#{accumulationheat},-->
-        <!--accumulationcooling=#{accumulationcooling},-->
-        <!--supplywatertemp=#{supplywatertemp},-->
-        <!--returnwatertemp=#{returnwatertemp}-->
-        <!--WHERE id=#{id}-->
-    <!--</update>-->
 </mapper>

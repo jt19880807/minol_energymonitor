@@ -22,6 +22,32 @@ public class Energy {
      */
     private double minTemp;
     /**
+     * 室外平均温度
+     */
+    private double outdoor_averageTemp;
+    /**
+     * 室外最高温度
+     */
+    private double outdoor_maxTemp;
+    /**
+     * 室外最低温度
+     */
+    private double outdoor_minTemp;
+
+    /**
+     * 室内平均湿度
+     */
+    private double averageHumidity;
+    /**
+     * 室内最高湿度
+     */
+    private double maxHumidity;
+    /**
+     * 室内最低湿度
+     */
+    private double minHumidity;
+
+    /**
      * 总能耗
      */
     private double totalEnergyConsumption;
@@ -37,7 +63,57 @@ public class Energy {
      * 常规能源替代量
      */
     private double replaceEnergy;
+
+    public double getOutdoor_averageTemp() {
+        return outdoor_averageTemp;
+    }
+
+    public void setOutdoor_averageTemp(double outdoor_averageTemp) {
+        this.outdoor_averageTemp = outdoor_averageTemp;
+    }
+
+    public double getOutdoor_maxTemp() {
+        return outdoor_maxTemp;
+    }
+
+    public void setOutdoor_maxTemp(double outdoor_maxTemp) {
+        this.outdoor_maxTemp = outdoor_maxTemp;
+    }
+
+    public double getOutdoor_minTemp() {
+        return outdoor_minTemp;
+    }
+
+    public void setOutdoor_minTemp(double outdoor_minTemp) {
+        this.outdoor_minTemp = outdoor_minTemp;
+    }
+
+    public double getAverageHumidity() {
+        return averageHumidity;
+    }
+
+    public void setAverageHumidity(double averageHumidity) {
+        this.averageHumidity = averageHumidity;
+    }
+
+    public double getMaxHumidity() {
+        return maxHumidity;
+    }
+
+    public void setMaxHumidity(double maxHumidity) {
+        this.maxHumidity = maxHumidity;
+    }
+
+    public double getMinHumidity() {
+        return minHumidity;
+    }
+
+    public void setMinHumidity(double minHumidity) {
+        this.minHumidity = minHumidity;
+    }
+
     /**
+
      * CO2减排量
      */
     private double CO2;

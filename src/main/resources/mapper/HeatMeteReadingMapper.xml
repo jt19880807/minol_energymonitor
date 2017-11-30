@@ -53,7 +53,7 @@
 
     <!--查询某个项目再某个时间段的-->
     <select id="selectHeatByProjectId" resultType="java.lang.Double">
-      select sum(r.cha) as heat from (
+      select IFNULL(sum(r.cha),-1) as heat from (
         select (max(accumulationheat)-min(accumulationheat)) as cha from heatmetereading h
         WHERE h.meter_id in(
           select m.id from meter m, collector c,building b
