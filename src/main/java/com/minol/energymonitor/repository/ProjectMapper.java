@@ -1,6 +1,7 @@
 package com.minol.energymonitor.repository;
 
 import com.minol.energymonitor.domain.entity.Project;
+import com.minol.energymonitor.domain.model.EnergyReport;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface ProjectMapper {
     int batchDeleteProjects(List<Project> projects);
     int insertProject(Project project);
     int updateProject(Project project);
+    EnergyReport selectProjectForReport(int projectId);
+
 }

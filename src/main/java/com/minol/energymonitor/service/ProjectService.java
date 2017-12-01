@@ -1,6 +1,7 @@
 package com.minol.energymonitor.service;
 
 import com.minol.energymonitor.domain.entity.Project;
+import com.minol.energymonitor.domain.model.EnergyReport;
 import com.minol.energymonitor.repository.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,5 +69,13 @@ public class ProjectService {
         return projectMapper.updateProject(project);
     }
 
+    /**
+     * 舟曲指定ID的项目的信息，用于能耗报告
+     * @param projectId
+     * @return
+     */
+    public EnergyReport selectProjectForReport(int projectId){
+        return projectMapper.selectProjectForReport(projectId);
+    }
 
 }
