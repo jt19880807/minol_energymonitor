@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -290,12 +291,23 @@ public class DataAnalysisController {
     }
 
     @RequestMapping("/exportEnergyReport")
-    public void downloadPdf(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void downloadPdf(@RequestParam int projectId,
+                            @RequestParam Date startDate,
+                            @RequestParam Date endDate,
+                            @RequestParam boolean shownhxy,
+                            @RequestParam boolean showhjxy,
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws Exception {
+        EnergyReport energyReport=getEnergyReportByProjectId(projectId,startDate,endDate);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String start=formatter.format(startDate);
+        String end=formatter.format(endDate);
+        String fileName=energyReport.getProjectName()+"能耗报告.pdf";
         request.setCharacterEncoding("utf-8");
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/pdf;charset=UTF-8");
         // 下载文件的默认名称
-        response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode("我也是输出内容"+".pdf","UTF-8"));
+        response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileName,"UTF-8"));
         response.setCharacterEncoding("utf-8");
         Document document = new Document();
         PdfWriter.getInstance(document, response.getOutputStream());
@@ -316,7 +328,7 @@ public class DataAnalysisController {
         cell.setBorder(0);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        Paragraph text = PDFUtil.getParagraph("米诺项目");
+        Paragraph text = PDFUtil.getParagraph(energyReport.getProjectName());
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setColspan(3);
@@ -328,7 +340,7 @@ public class DataAnalysisController {
         cell.setBorder(0);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("北京市海淀区");
+        text = PDFUtil.getParagraph(energyReport.getProjectAddress());
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setPaddingTop(10);
@@ -341,7 +353,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("1000㎡");
+        text = PDFUtil.getParagraph(energyReport.getHeating_area()+"㎡");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -352,7 +364,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("住宅");
+        text = PDFUtil.getParagraph(energyReport.getBuilding_type());
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -364,7 +376,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("5");
+        text = PDFUtil.getParagraph(energyReport.getBuilding_years()+"");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -375,7 +387,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("100");
+        text = PDFUtil.getParagraph(energyReport.getHouse_count()+"");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -387,7 +399,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("2017/11/01-2017/12/01");
+        text = PDFUtil.getParagraph(start+"-"+end);
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setColspan(3);
@@ -400,7 +412,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("20.17℃");
+        text = PDFUtil.getParagraph(energyReport.getAverageTemp()+"℃");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -417,18 +429,18 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("46天");
+        text = PDFUtil.getParagraph(energyReport.getStandardDays()+"天");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
         cell.setPaddingTop(10);
         table.addCell(cell);
-        cell = new PdfPCell(PDFUtil.getParagraph("温度未达标天数"));
+        cell = new PdfPCell(PDFUtil.getParagraph("温度未达标天数:"));
         cell.setBorder(0);
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("2天");
+        text = PDFUtil.getParagraph(energyReport.getNoStandardDays()+"天");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -440,7 +452,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("1000");
+        text = PDFUtil.getParagraph(energyReport.getHeat()+"MJ");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -451,7 +463,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("2天");
+        text = PDFUtil.getParagraph(energyReport.getPowerConsumption()+"kwh");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -463,7 +475,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("100");
+        text = PDFUtil.getParagraph(energyReport.getSCOP()+"");
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setBorder(0);
@@ -481,7 +493,7 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
-        text = PDFUtil.getParagraph("不合格");
+        text = PDFUtil.getParagraph(energyReport.getReportResult());
         text.add(UNDERLINE);
         cell = new PdfPCell(text);
         cell.setColspan(3);
@@ -489,109 +501,124 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         table.addCell(cell);
 
-        //头部标题
-//        Paragraph title = PDFUtil.getParagraph(new Chunk(String.valueOf("能耗报告"), new Font(PDFUtil.bfChinese, 14, Font.BOLD)));
-//        title.setAlignment(Paragraph.ALIGN_CENTER);
-//        document.add(title);
-        cell = new PdfPCell(PDFUtil.getParagraph(new Chunk(String.valueOf("能耗效益"), new Font(PDFUtil.bfChinese, 14, Font.BOLD))));
-        cell.setColspan(4);
-        cell.setBorder(0);
-        cell.setPaddingTop(20);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        table.addCell(cell);
+        File directory = new File("src/main/resources/static/upload");//设定为当前文件夹
+        String filePath=directory.getCanonicalPath();
+        if (shownhxy) {
+            cell = new PdfPCell(PDFUtil.getParagraph(new Chunk(String.valueOf("能耗效益"), new Font(PDFUtil.bfChinese, 14, Font.BOLD))));
+            cell.setColspan(4);
+            cell.setBorder(0);
+            cell.setPaddingTop(20);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(cell);
 
+            cell = new PdfPCell(PDFUtil.getParagraph("常规能源能耗"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnergyEfficiency().getConventionalEnergy()+"kgcc");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
+            cell = new PdfPCell(PDFUtil.getParagraph("总能耗"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnergyEfficiency().getTotalEnergyConsumption()+"kgcc");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
 
-        cell = new PdfPCell(PDFUtil.getParagraph("常规能源供热能耗"));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        text = PDFUtil.getParagraph("526.45kgcc");
-        text.add(UNDERLINE);
-        cell = new PdfPCell(text);
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        table.addCell(cell);
-        cell = new PdfPCell(PDFUtil.getParagraph("实际能耗:"));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        text = PDFUtil.getParagraph("-0.31kgcc");
-        text.add(UNDERLINE);
-        cell = new PdfPCell(text);
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        table.addCell(cell);
+            cell = new PdfPCell(PDFUtil.getParagraph("能源替代量"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnergyEfficiency().getReplaceEnergy()+"kgcc");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
+            cell = new PdfPCell(PDFUtil.getParagraph(" "));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            cell.setColspan(2);
+            table.addCell(cell);
+            //插入能耗效益图片
+            Image img = Image.getInstance(filePath+"/nhxy.png");
+            PdfPCell pdfPCell=new PdfPCell();
+            pdfPCell.setPaddingTop(10);
+            pdfPCell.setColspan(4);
+            pdfPCell.setImage(img);
+            table.addCell(pdfPCell);
+        }
 
-        cell = new PdfPCell(PDFUtil.getParagraph("能源替代量:"));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        text = PDFUtil.getParagraph("526.76kgcc");
-        text.add(UNDERLINE);
-        cell = new PdfPCell(text);
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        table.addCell(cell);
-        cell = new PdfPCell(PDFUtil.getParagraph(" "));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        cell.setColspan(2);
-        table.addCell(cell);
-        //插入能耗效益图片
+        if (showhjxy) {
+            cell = new PdfPCell(PDFUtil.getParagraph(new Chunk(String.valueOf("环境效益"), new Font(PDFUtil.bfChinese, 14, Font.BOLD))));
+            cell.setColspan(4);
+            cell.setBorder(0);
+            cell.setPaddingTop(20);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(cell);
 
-        cell = new PdfPCell(PDFUtil.getParagraph(new Chunk(String.valueOf("环境效益"), new Font(PDFUtil.bfChinese, 14, Font.BOLD))));
-        cell.setColspan(4);
-        cell.setBorder(0);
-        cell.setPaddingTop(20);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        table.addCell(cell);
+            cell = new PdfPCell(PDFUtil.getParagraph("二氧化碳减排量"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnvironmentalBenefits().getCO2()+"kg");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
+            cell = new PdfPCell(PDFUtil.getParagraph("二氧化硫减排量"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnvironmentalBenefits().getSO2()+"kg");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
 
-
-        cell = new PdfPCell(PDFUtil.getParagraph("二氧化碳减排量"));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        text = PDFUtil.getParagraph("136.96kg");
-        text.add(UNDERLINE);
-        cell = new PdfPCell(text);
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        table.addCell(cell);
-        cell = new PdfPCell(PDFUtil.getParagraph("二氧化硫减排量:"));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        text = PDFUtil.getParagraph("-0.31kgcc");
-        text.add(UNDERLINE);
-        cell = new PdfPCell(text);
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        table.addCell(cell);
-
-        cell = new PdfPCell(PDFUtil.getParagraph("能源替代量:"));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        text = PDFUtil.getParagraph("526.76kgcc");
-        text.add(UNDERLINE);
-        cell = new PdfPCell(text);
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        table.addCell(cell);
-        cell = new PdfPCell(PDFUtil.getParagraph(" "));
-        cell.setBorder(0);
-        cell.setPaddingTop(10);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-        cell.setColspan(2);
-        table.addCell(cell);
-
+            cell = new PdfPCell(PDFUtil.getParagraph("颗粒物减排量"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnvironmentalBenefits().getParticulates()+"kg");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
+            cell = new PdfPCell(PDFUtil.getParagraph("氮氧化物减排量"));
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+            text = PDFUtil.getParagraph(energyReport.getEnvironmentalBenefits().getNitrogenOxides()+"kg");
+            text.add(UNDERLINE);
+            cell = new PdfPCell(text);
+            cell.setBorder(0);
+            cell.setPaddingTop(10);
+            table.addCell(cell);
+            Image img = Image.getInstance(filePath+"/hjxy.png");
+            PdfPCell pdfPCell=new PdfPCell();
+            pdfPCell.setColspan(4);
+            pdfPCell.setImage(img);
+            table.addCell(pdfPCell);
+        }
 
 
         document.add(table);
@@ -611,7 +638,7 @@ public class DataAnalysisController {
             savePic(reportPicModel.getEnergyEfficiency_picinfo(),"nhxy");
         }
         if (reportPicModel.getEnvironmentalBenefits_picinfo()!= null&&!"".equals(reportPicModel.getEnvironmentalBenefits_picinfo())){
-            savePic(reportPicModel.getEnvironmentalBenefits_picinfo(),"nhxy");
+            savePic(reportPicModel.getEnvironmentalBenefits_picinfo(),"hjxy");
         }
         return JsonUtils.fillResultString(0,"成功",null);
     }
@@ -659,11 +686,6 @@ public class DataAnalysisController {
             String filePath=directory.getCanonicalPath();
             try{
                 //使用apache提供的工具类操作流
-//                System.out.println(directory.getCanonicalPath());//获取标准的路径
-//                System.out.println(directory.getAbsolutePath());//获取绝对路径
-//                System.out.println(request.getServletContext());
-//                System.out.println("getContextPath:"+request.getSession().getServletContext().getRealPath("/upload"));
-//                System.out.println(request.getServletContext().getRealPath("/upload"));
                 FileUtils.writeByteArrayToFile(new File(filePath, tempFileName), bs);
             }catch(Exception ee){
                 throw new Exception("上传失败，写入文件失败，"+ee.getMessage());

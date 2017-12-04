@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minol.energymonitor.repository.HeatConsumptionMapper" >
+    <resultMap id="HeatConsumptionResult" type="com.minol.energymonitor.domain.entity.HeatConsumption">
+        <id column="id" property="id"/>
+        <result column="project_id" property="project_id"/>
+        <result column="date" property="date"/>
+        <result column="consumption" property="consumption"/>
+        <result column="isdeleted" property="isdeleted"/>
+        <result column="create_time" property="create_time"/>
+        <!--<association property="meter" column="meter_id" select="com.minol.energymonitor.repository.MeterMapper.selectMeterById"/>-->
+    </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        heatconsumption
+    </sql>
+
+    <sql id="field">
+        project_id,
+        date,
+        consumption,
+        isdeleted,
+        create_time
+    </sql>
+
+    <sql id="fieldValue">
+        #{project_id},
+        #{date},
+        #{consumption},
+        #{isdeleted},
+        #{create_time}
+    </sql>
+
+    <!--根据主键ID查询耗电量信息-->
+    <select id="selectHeatConsumptionById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.HeatConsumption">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
+    </select>
+
+    <!--查询指定ID范围的楼栋信息-->
+    <select id="selectHeatConsumptions" parameterType="Map" resultMap="HeatConsumptionResult">
+        SELECT h.id, h.project_id,
+        h.date,
+        h.consumption,
+        h.isdeleted,
+        h.create_time from heatconsumption h
+        WHERE h.project_id=#{projectId} AND
+        h.date BETWEEN #{startDate} AND #{endDate} AND  h.isdeleted=0
+        ORDER BY h.date asc
+    </select>
+
+    <!--查询指定项目在某个时间段内的耗热量-->
+    <select id="selectHeatConsumptionByProjectId" parameterType="Map" resultType="java.lang.Double">
+        select IFNULL(sum(p.consumption),-1) as consumption  from heatconsumption h
+         WHERE h.project_id=#{project_id}
+          AND p.date BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+</mapper>

@@ -2,13 +2,16 @@ package com.minol.energymonitor.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.minol.energymonitor.domain.entity.HeatConsumption;
 import com.minol.energymonitor.domain.entity.PowerConsumption;
+import com.minol.energymonitor.domain.model.ChartModal;
 import com.minol.energymonitor.service.PowerConsumptionService;
 import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -46,59 +49,37 @@ public class PowerConsumptionController {
         List<PowerConsumption> powerConsumptions=powerConsumptionService.selectPowerConsumptions(map);
         return new PageInfo<PowerConsumption>(powerConsumptions);
     }
-
-//    @GetMapping("/powerConsumptions/{id}")
-//    public String selectPowerConsumptionById(@PathVariable int id){
-//        PowerConsumption powerConsumption=powerConsumptionService.selectPowerConsumptionById(id);
-//        List<PowerConsumption> powerConsumptions=new ArrayList<>();
-//        powerConsumptions.add(powerConsumption);
-//        return JsonUtils.fillResultString(0,"成功",powerConsumptions);
-//    }
-//    /**
-//     * 批量删除设备表信息
-//     * @param powerConsumptions
-//     * @return
-//     */
-//    @PostMapping("/powerConsumptions-del")
-//    public String batchDeletePowerConsumptions(@RequestBody List<PowerConsumption> powerConsumptions){
-//        int result=powerConsumptionService.batchDeletePowerConsumptions(powerConsumptions);
-//        return JsonUtils.fillResultString(0,"成功",result);
-//    }
-//
-//    /**
-//     * 插入一条设备表信息
-//     * @param powerConsumption
-//     * @return
-//     */
-//    @PostMapping("/powerConsumption")
-//    public String insertPowerConsumption(@RequestBody PowerConsumption powerConsumption){
-//        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
-//        powerConsumption.setCreate_time(timestamp);
-//        int result=powerConsumptionService.insertPowerConsumption(powerConsumption);
-//        return JsonUtils.fillResultString(0,"成功",result);
-//    }
-//
-//
-//    /**
-//     * 修改一条设备表数据
-//     * @param id
-//     * @param powerConsumption
-//     * @return
-//     */
-//    @PutMapping("/powerConsumption/{id}")
-//    public String updatePowerConsumption(@PathVariable int id, @RequestBody PowerConsumption powerConsumption){
-//        PowerConsumption mpowerConsumption=powerConsumptionService.selectPowerConsumptionById(id);
-//        int result=0;
-//        if (mpowerConsumption!=null){
-//            mpowerConsumption.setInstantaneousflow(powerConsumption.getInstantaneousflow());
-//            mpowerConsumption.setDate(powerConsumption.getDate());
-//            mpowerConsumption.setPower(powerConsumption.getPower());
-//            mpowerConsumption.setAccumulationheat(powerConsumption.getAccumulationheat());
-//            mpowerConsumption.setAccumulationcooling(powerConsumption.getAccumulationcooling());
-//            mpowerConsumption.setSupplywatertemp(powerConsumption.getSupplywatertemp());
-//            mpowerConsumption.setReturnwatertemp(powerConsumption.getReturnwatertemp());
-//            result=powerConsumptionService.updatePowerConsumption(mpowerConsumption);
-//        }
-//        return JsonUtils.fillResultString(0,"成功",result);
-//    }
+    /**
+        * 查找最新一个月的耗电量
+     * @param projectId 项目ID
+     * @return
+             */
+    @GetMapping("/lastMonthPowerConsumptions")
+    public String selectLastMonthPowerConsumptions(@RequestParam int projectId,
+                                                  @RequestParam Date startDate,
+                                                  @RequestParam Date endDate){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",projectId);
+        map.put("areaId",0);
+        map.put("buildingId",0);
+        map.put("meterId",0);
+        map.put("startDate",startDate);
+        map.put("endDate",endDate);
+        List<PowerConsumption> heatConsumptionList=powerConsumptionService.selectPowerConsumptions(map);
+        List<ChartModal> chartModals=new ArrayList<>();
+        ChartModal chartModal=new ChartModal();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd");
+        List<String> texts=new ArrayList<>();
+        List<Double> values=new ArrayList<>();
+        if (heatConsumptionList.size()>0){
+            for (int i = heatConsumptionList.size()-1; i >-1 ; i--) {
+                texts.add(formatter.format(heatConsumptionList.get(i).getDate()));
+                values.add(heatConsumptionList.get(i).getConsumption());
+            }
+        }
+        chartModal.setText(texts);
+        chartModal.setValue(values);
+        chartModals.add(chartModal);
+        return JsonUtils.fillResultString(0,"成功",chartModals);
+    }
 }
