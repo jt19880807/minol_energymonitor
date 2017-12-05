@@ -78,5 +78,12 @@
       FORMAT(AVG(a.indoor_averagehumidity),2) as averageHumidity,max(a.indoor_averagehumidity) as maxHumidity,min(a.indoor_averagehumidity) as minHumidity
       from averagetemp a WHERE a.project_id=#{projectId} and a.date BETWEEN #{startDate} AND #{endDate}
     </select>
+    <!--获取指定项目的在最新的平均温度，最高温度，最低温度-->
+    <select id="selectLastAverageTempsByProjectId" parameterType="int" resultType="com.minol.energymonitor.domain.model.Energy">
+        select a.date, FORMAT(a.indoor_averagetemp,2) as averageTemp,a.indoor_maxtemp as maxTemp,a.indoor_mintemp as minTemp,
+        FORMAT(a.outdoor_averagetemp,2) as outdoor_averageTemp,
+        FORMAT(a.indoor_averagehumidity,2) as averageHumidity,a.indoor_averagehumidity as maxHumidity,a.indoor_averagehumidity as minHumidity
+        from averagetemp a WHERE a.project_id=#{projectId} ORDER by a.date desc LIMIT 1
+    </select>
 
 </mapper>

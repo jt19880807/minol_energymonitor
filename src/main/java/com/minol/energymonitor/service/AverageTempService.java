@@ -35,6 +35,14 @@ public class AverageTempService {
     public Energy selectAverageTempsByProjectId(Map map){
         return averageTempMapper.selectAverageTempsByProjectId(map);
     }
+    /**
+     * 获取指定项目的在某个时间段内的平均温度，最高温度，最低温度
+     * @param projectId
+     * @return
+     */
+    public Energy selectLastAverageTempsByProjectId(int projectId){
+        return averageTempMapper.selectLastAverageTempsByProjectId(projectId);
+    }
 //    /**
 //     * 根据主键ID查找楼栋信息
 //     * @param id
