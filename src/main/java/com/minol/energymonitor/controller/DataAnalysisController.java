@@ -58,6 +58,7 @@ public class DataAnalysisController {
      * @param endDate
      * @return
      */
+
     @GetMapping("/energys")
     public String getEnergys(@RequestParam int projectId,
                              @RequestParam Date startDate,
@@ -87,7 +88,7 @@ public class DataAnalysisController {
             double replaceEnergy = conventionalEnergy - totalEnergyConsumption;
             //CO2减排量=常规能源替代量*二氧化碳排放银子(2.6kg/kgcc)
             double CO2 = replaceEnergy * 0.26;
-            //SO2减排量=常规能源替代量*二氧化硫排放银子(7.4kg/kgcc)/1000
+            //SO2减排量=常规能源替代量*二氧化硫排放因子(7.4kg/kgcc)/1000
             double SO2 = replaceEnergy * 7.4 / 1000;
             //氮氧化物减排量=常规能源替代量*氮氧化物排放因子（1.6kg/kgcc）/1000
             double nitrogenOxides = replaceEnergy * 1.6 / 1000;
@@ -320,7 +321,6 @@ public class DataAnalysisController {
         document.add(title);
 
         LineSeparator UNDERLINE = new LineSeparator(1, 100, null, Element.ALIGN_CENTER,-2);
-
         PdfPTable table = new PdfPTable(4);
         table.setSpacingBefore(20f);
         PdfPCell cell = new PdfPCell(PDFUtil.getParagraph("项目名称:"));
@@ -501,8 +501,10 @@ public class DataAnalysisController {
         cell.setPaddingTop(10);
         table.addCell(cell);
 
-        File directory = new File("src/main/resources/static/upload");//设定为当前文件夹
+        //设定为当前文件夹
+        File directory = new File("src/main/resources/static/upload");
         String filePath=directory.getCanonicalPath();
+
         if (shownhxy) {
             cell = new PdfPCell(PDFUtil.getParagraph(new Chunk(String.valueOf("能耗效益"), new Font(PDFUtil.bfChinese, 14, Font.BOLD))));
             cell.setColspan(4);
@@ -651,12 +653,12 @@ public class DataAnalysisController {
      */
     private static String savePic(String base64Data,String name){
         try{
-            //String base64Data=reportPicModel.getEnergyEfficiency_picinfo();
             String dataPrix = "";
             String data = "";
             if(base64Data == null || "".equals(base64Data)){
                 throw new Exception("上传失败，上传图片数据为空");
-            }else{
+            }
+            else{
                 String [] d = base64Data.split("base64,");
                 if(d != null && d.length == 2){
                     dataPrix = d[0];
@@ -678,10 +680,8 @@ public class DataAnalysisController {
                 throw new Exception("上传图片格式不合法");
             }
             String tempFileName = name + suffix;
-
             //因为BASE64Decoder的jar问题，此处使用spring框架提供的工具包
             byte[] bs = Base64Utils.decodeFromString(data);
-
             File directory = new File("src/main/resources/static/upload");//设定为当前文件夹
             String filePath=directory.getCanonicalPath();
             try{
@@ -695,5 +695,4 @@ public class DataAnalysisController {
             return "error";
         }
     }
-
 }

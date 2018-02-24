@@ -43,40 +43,4 @@ public class AverageTempService {
     public Energy selectLastAverageTempsByProjectId(int projectId){
         return averageTempMapper.selectLastAverageTempsByProjectId(projectId);
     }
-//    /**
-//     * 根据主键ID查找楼栋信息
-//     * @param id
-//     * @return
-//     */
-//    public AverageTemp selectAverageTempById(int id){
-//        return averageTempMapper.selectAverageTempById(id);
-//    }
-//
-//    /**
-//     * 批量删除
-//     * @param averageTemps
-//     * @return
-//     */
-//    public int batchDeleteAverageTemps(List<AverageTemp> averageTemps){
-//        return averageTempMapper.batchDeleteAverageTemps(averageTemps);
-//    }
-//
-//    /**
-//     * 插入一条楼栋信息
-//     * @param averageTemp
-//     * @return
-//     */
-//    public int insertAverageTemp(AverageTemp averageTemp){
-//        return averageTempMapper.insertAverageTemp(averageTemp);
-//    }
-//    /**
-//     * 修改楼栋信息
-//     * @param averageTemp
-//     * @return
-//     */
-//    public int updateAverageTemp(AverageTemp averageTemp){
-//        return averageTempMapper.updateAverageTemp(averageTemp);
-//    }
-
-
 }

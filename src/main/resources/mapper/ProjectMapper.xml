@@ -26,16 +26,6 @@
         <result column="name" property="name"/>
     </resultMap>
 
-    <!--<resultMap id="ProjectResult_Report" type="com.minol.energymonitor.domain.model.EnergyReport">-->
-        <!--<id column="projectName" property="projectName"/>-->
-        <!--<result column="projectAddress" property="projectAddress"/>-->
-        <!--<result column="heating_area" property="heating_area"/>-->
-        <!--<result column="building_type" property="building_type"/>-->
-        <!--<result column="building_years" property="building_years"/>-->
-        <!--<result column="name" property="name"/>-->
-        <!--<result column="name" property="name"/>-->
-    <!--</resultMap>-->
-
     <!--表名 -->
     <sql id="tableName">
         project

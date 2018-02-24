@@ -77,37 +77,4 @@
           AND p.date BETWEEN #{startDate} AND #{endDate}
     </select>
 
-    <!--&lt;!&ndash;批量删除&ndash;&gt;-->
-    <!--<update id="batchDeletePowerConsumptions" parameterType="java.util.List">-->
-        <!--UPDATE <include refid="tableName"></include>-->
-        <!--SET isdeleted=1-->
-        <!--WHERE id in-->
-        <!--<foreach item="item" index="index" collection="list" open="(" separator="," close=")">-->
-            <!--#{item.id}-->
-        <!--</foreach>-->
-    <!--</update>-->
-
-    <!--&lt;!&ndash;插入一条楼栋信息&ndash;&gt;-->
-    <!--<insert id="insertPowerConsumption" parameterType="com.minol.energymonitor.domain.entity.PowerConsumption">-->
-        <!--INSERT <include refid="tableName"></include> (-->
-        <!--<include refid="field"></include>-->
-        <!--) VALUES (-->
-        <!--<include refid="fieldValue"></include>-->
-        <!--)-->
-    <!--</insert>-->
-
-    <!--&lt;!&ndash;修改耗电量信息&ndash;&gt;-->
-    <!--<update id="updatePowerConsumption" parameterType="com.minol.energymonitor.domain.entity.PowerConsumption">-->
-        <!--UPDATE <include refid="tableName"></include>-->
-        <!--SET-->
-        <!--meter_id=#{meter_id},-->
-        <!--date=#{date},-->
-        <!--instantaneousflow=#{instantaneousflow},-->
-        <!--power=#{power},-->
-        <!--accumulationheat=#{accumulationheat},-->
-        <!--accumulationcooling=#{accumulationcooling},-->
-        <!--supplywatertemp=#{supplywatertemp},-->
-        <!--returnwatertemp=#{returnwatertemp}-->
-        <!--WHERE id=#{id}-->
-    <!--</update>-->
 </mapper>

@@ -15,8 +15,4 @@ import java.util.Map;
 public interface PowerConsumptionMapper {
     List<PowerConsumption> selectPowerConsumptions(Map map);
     Double selectPowerConsumptionByProjectId(Map map);
-//    PowerConsumption selectPowerConsumptionById(int id);
-//    int batchDeletePowerConsumptions(List<PowerConsumption> powerConsumptions);
-//    int insertPowerConsumption(PowerConsumption powerConsumption);
-//    int updatePowerConsumption(PowerConsumption powerConsumption);
 }

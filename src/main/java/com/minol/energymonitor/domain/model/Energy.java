@@ -33,7 +33,6 @@ public class Energy {
      * 室外最低温度
      */
     private double outdoor_minTemp;
-
     /**
      * 室内平均湿度
      */
@@ -46,7 +45,6 @@ public class Energy {
      * 室内最低湿度
      */
     private double minHumidity;
-
     /**
      * 总能耗
      */
@@ -63,6 +61,22 @@ public class Energy {
      * 常规能源替代量
      */
     private double replaceEnergy;
+    /**
+     * CO2减排量
+     */
+    private double CO2;
+    /**
+     * SO2减排量
+     */
+    private double SO2;
+    /**
+     * 氮氧化物减排量
+     */
+    private double nitrogenOxides;
+    /**
+     * 颗粒物减排量
+     */
+    private double particulates;
 
     public double getOutdoor_averageTemp() {
         return outdoor_averageTemp;
@@ -111,24 +125,6 @@ public class Energy {
     public void setMinHumidity(double minHumidity) {
         this.minHumidity = minHumidity;
     }
-
-    /**
-
-     * CO2减排量
-     */
-    private double CO2;
-    /**
-     * SO2减排量
-     */
-    private double SO2;
-    /**
-     * 氮氧化物减排量
-     */
-    private double nitrogenOxides;
-    /**
-     * 颗粒物减排量
-     */
-    private double particulates;
 
     public double getHeat() {
         return heat;

@@ -4,14 +4,63 @@
     <resultMap id="RoleResult" type="com.minol.energymonitor.domain.entity.SysRole">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="desc" property="desc"/>
     </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        sys_role
+    </sql>
 
+    <sql id="field">
+        name,
+        code,
+        des,
+        status
+    </sql>
+
+    <sql id="fieldValue">
+        #{name},
+        #{code},
+        #{des},
+        #{status}
+    </sql>
     <select id="selectAllRoles" resultMap="RoleResult">
-        SELECT * FROM sys_role
+        SELECT * FROM sys_role WHERE status!=1
     </select>
 
+    <!--根据主键ID查询角色信息-->
     <select id="selectRoleById" parameterType="int" resultType="com.minol.energymonitor.domain.entity.SysRole">
         SELECT * from sys_role where id=#{id}
     </select>
 
+    <!--批量删除-->
+    <update id="batchDeleteRoles" parameterType="java.util.List">
+        UPDATE <include refid="tableName"></include>
+        SET status=1
+        WHERE id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+        AND id!=1
+    </update>
+
+    <!--新增角色-->
+    <insert id="insertRole" parameterType="com.minol.energymonitor.domain.entity.SysRole">
+        INSERT <include refid="tableName"></include> (
+        <include refid="field"></include>
+        ) VALUES (
+        <include refid="fieldValue"></include>
+        )
+    </insert>
+
+    <!--修改角色-->
+    <update id="updateRole" parameterType="com.minol.energymonitor.domain.entity.SysRole">
+        UPDATE <include refid="tableName"></include>
+        SET name=#{name},
+        code=#{code},
+        des=#{des},
+        status=#{status}
+        WHERE id=#{id}
+    </update>
 </mapper>

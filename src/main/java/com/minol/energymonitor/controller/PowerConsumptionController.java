@@ -53,7 +53,7 @@ public class PowerConsumptionController {
         * 查找最新一个月的耗电量
      * @param projectId 项目ID
      * @return
-             */
+     */
     @GetMapping("/lastMonthPowerConsumptions")
     public String selectLastMonthPowerConsumptions(@RequestParam int projectId,
                                                   @RequestParam Date startDate,

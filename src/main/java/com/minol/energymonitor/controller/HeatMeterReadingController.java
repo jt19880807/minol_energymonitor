@@ -55,7 +55,7 @@ public class HeatMeterReadingController {
         return JsonUtils.fillResultString(0,"成功",heatMeterReadings);
     }
     /**
-     * 批量删除设备表信息
+     * 批量删除设备读数信息
      * @param heatMeterReadings
      * @return
      */
@@ -66,7 +66,7 @@ public class HeatMeterReadingController {
     }
 
     /**
-     * 插入一条设备表信息
+     * 插入一条设备读数信息
      * @param heatMeterReading
      * @return
      */
@@ -80,7 +80,7 @@ public class HeatMeterReadingController {
 
 
     /**
-     * 修改一条设备表数据
+     * 修改一条设备读数数据
      * @param id
      * @param heatMeterReading
      * @return

@@ -12,4 +12,7 @@ import java.util.List;
 public interface RoleMapper {
     List<SysRole> selectAllRoles();
     SysRole selectRoleByName(String name);
+    int batchDeleteRoles(List<SysRole> roles);
+    int insertRole(SysRole sysRole);
+    int updateRole(SysRole sysRole);
 }

@@ -34,40 +34,5 @@ public class PowerConsumptionService {
         return powerConsumptionMapper.selectPowerConsumptionByProjectId(map);
     }
 
-//    /**
-//     * 根据主键ID查找楼栋信息
-//     * @param id
-//     * @return
-//     */
-//    public PowerConsumption selectPowerConsumptionById(int id){
-//        return powerConsumptionMapper.selectPowerConsumptionById(id);
-//    }
-//
-//    /**
-//     * 批量删除
-//     * @param powerConsumptions
-//     * @return
-//     */
-//    public int batchDeletePowerConsumptions(List<PowerConsumption> powerConsumptions){
-//        return powerConsumptionMapper.batchDeletePowerConsumptions(powerConsumptions);
-//    }
-//
-//    /**
-//     * 插入一条楼栋信息
-//     * @param powerConsumption
-//     * @return
-//     */
-//    public int insertPowerConsumption(PowerConsumption powerConsumption){
-//        return powerConsumptionMapper.insertPowerConsumption(powerConsumption);
-//    }
-//    /**
-//     * 修改楼栋信息
-//     * @param powerConsumption
-//     * @return
-//     */
-//    public int updatePowerConsumption(PowerConsumption powerConsumption){
-//        return powerConsumptionMapper.updatePowerConsumption(powerConsumption);
-//    }
-
 
 }

@@ -19,8 +19,4 @@ public interface AverageTempMapper {
     List<AverageTemp> selectAverageTemps(Map map);
     Energy selectAverageTempsByProjectId(Map map);
     Energy selectLastAverageTempsByProjectId(int protectId);
-//    PowerConsumption selectPowerConsumptionById(int id);
-//    int batchDeletePowerConsumptions(List<PowerConsumption> powerConsumptions);
-//    int insertPowerConsumption(PowerConsumption powerConsumption);
-//    int updatePowerConsumption(PowerConsumption powerConsumption);
 }

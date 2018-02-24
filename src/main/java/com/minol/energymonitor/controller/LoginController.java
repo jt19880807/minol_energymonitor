@@ -5,7 +5,6 @@ import com.minol.energymonitor.service.UserService;
 import com.minol.energymonitor.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +13,6 @@ public class LoginController {
 
     @Autowired
     UserService userService;
-
-    @RequestMapping(value="/test",method = RequestMethod.GET)
-    public String test(){
-        return "Welcome to SpringBoot";
-    }
 
     /**
      * 登录接口
