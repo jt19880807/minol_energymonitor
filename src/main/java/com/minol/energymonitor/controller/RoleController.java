@@ -31,12 +31,12 @@ public class RoleController {
 
     /**
      * 批量删除角色信息(假删除，将status字段改为1)
-     * @param roles
+     * @param role
      * @return
      */
     @PostMapping("/roles-del")
-    public String batchDelete(@RequestBody List<SysRole> roles){
-        int result = roleService.batchDeletRoles(roles);
+    public String batchDelete(@RequestBody SysRole role){
+        int result = roleService.batchDeletRoles(role);
         return JsonUtils.fillResultString(0,"成功", result);
     }
 

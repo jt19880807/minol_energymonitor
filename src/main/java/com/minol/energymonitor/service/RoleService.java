@@ -22,8 +22,8 @@ public class RoleService {
     public SysRole selectRoleByName(String name) {
         return roleMapper.selectRoleByName(name);
     }
-    public int batchDeletRoles(List<SysRole> roles){
-        return roleMapper.batchDeleteRoles(roles);
+    public int batchDeletRoles(SysRole role){
+        return roleMapper.batchDeleteRoles(role);
     }
     public int isnertUser(SysRole sysRole){return  roleMapper.insertRole(sysRole);}
     public int updateUser(SysRole sysRole){return  roleMapper.updateRole(sysRole);}

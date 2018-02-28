@@ -35,13 +35,10 @@
     </select>
 
     <!--批量删除-->
-    <update id="batchDeleteRoles" parameterType="java.util.List">
+    <update id="batchDeleteRoles" parameterType="com.minol.energymonitor.domain.entity.SysRole">
         UPDATE <include refid="tableName"></include>
         SET status=1
-        WHERE id in
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-            #{item.id}
-        </foreach>
+        WHERE id =#{id}
         AND id!=1
     </update>
 

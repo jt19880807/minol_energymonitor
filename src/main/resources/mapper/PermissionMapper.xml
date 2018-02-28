@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minol.energymonitor.repository.PermissionMapper" >
+    <resultMap id="PermissionResult" type="com.minol.energymonitor.domain.entity.SysPermission">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="menu_type" property="menu_type"/>
+        <result column="code" property="code"/>
+        <result column="level" property="level"/>
+        <result column="status" property="status"/>
+        <result column="parent_id" property="parent_id"/>
+    </resultMap>
+    <!--表名 -->
+    <sql id="tableName">
+        sys_permission
+    </sql>
+
+    <sql id="field">
+        name,
+        url,
+        menu_type,
+        code,
+        level,
+        status,
+        parent_id
+    </sql>
+
+    <sql id="fieldValue">
+        #{name},
+        #{url},
+        #{menu_type},
+        #{code},
+        #{level},
+        #{status},
+        #{parent_id}
+    </sql>
+    <select id="selectAllPermissions" resultMap="PermissionResult">
+        SELECT * FROM <include refid="tableName"></include> WHERE status!=1
+    </select>
+
+    <select id="selectPermissionByParentId" resultMap="PermissionResult">
+        SELECT * FROM <include refid="tableName"></include> WHERE status!=1
+    </select>
+
+    <!--新增角色-->
+    <insert id="insertPermission" parameterType="com.minol.energymonitor.domain.entity.SysPermission">
+        INSERT <include refid="tableName"></include> (
+        <include refid="field"></include>
+        ) VALUES (
+        <include refid="fieldValue"></include>
+        )
+    </insert>
+
+    <!--修改角色-->
+    <update id="updatePermission" parameterType="com.minol.energymonitor.domain.entity.SysPermission">
+        UPDATE <include refid="tableName"></include>
+        SET name=#{name},
+        status=#{status}
+        url=#{url},
+        menu_type=#{menu_type},
+        level=#{level},
+        code=#{code},
+        status=#{status},
+        parent_id=#{parent_id}
+        WHERE id=#{id}
+    </update>
+</mapper>
