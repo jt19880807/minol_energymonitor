@@ -21,8 +21,8 @@ public class PermissionController {
      * 获取所有的权限信息
      * @return
      */
-    @RequestMapping(value = "/permissions",method = RequestMethod.GET)
-    public String selectPermissions(){
+    @RequestMapping(value = "/permissions-tree",method = RequestMethod.GET)
+    public String selectPermissionTree(){
         List<SysPermission> sysPermissions = permissionService.selectAllPermissions();
         List<SysPermission> rootPermission=new ArrayList<>();
         for (SysPermission sysPermission:sysPermissions){
@@ -34,6 +34,35 @@ public class PermissionController {
             sysPermission.setChildPermission(getChild(sysPermission.getId(),sysPermissions));
         }
         return JsonUtils.fillResultString(0,"成功", rootPermission);
+    }
+    /**
+     * 获取所有的权限信息
+     * @return
+     */
+    @RequestMapping(value = "/permissions",method = RequestMethod.GET)
+    public String selectPermissions(){
+        List<SysPermission> sysPermissions = permissionService.selectAllPermissions();
+        List<SysPermission> rootPermission=new ArrayList<>();
+        List<SysPermission> resultPermission=new ArrayList<>();
+        for (SysPermission sysPermission:sysPermissions){
+            if (sysPermission.getParent_id()==0){
+                rootPermission.add(sysPermission);
+            }
+        }
+        for (SysPermission sysPermission:rootPermission){
+            resultPermission.add(sysPermission);
+            getChild(sysPermission.getId(),sysPermissions,resultPermission);
+        }
+        return JsonUtils.fillResultString(0,"成功", resultPermission);
+    }
+    private void getChild(int id, List<SysPermission> rootMenu,List<SysPermission> resultMenu) {
+        // 子菜单
+        for (SysPermission menu : rootMenu) {
+            if (menu.getParent_id()==id) {
+                resultMenu.add(menu);
+                getChild(menu.getId(), rootMenu,resultMenu);
+            }
+        }
     }
     private List<SysPermission> getChild(int id, List<SysPermission> rootMenu) {
         // 子菜单
