@@ -4,6 +4,7 @@
     <resultMap id="PermissionResult" type="com.minol.energymonitor.domain.entity.SysPermission">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
+        <result column="name" property="title"/>
         <result column="url" property="url"/>
         <result column="menu_type" property="menu_type"/>
         <result column="code" property="code"/>
@@ -56,10 +57,8 @@
     <update id="updatePermission" parameterType="com.minol.energymonitor.domain.entity.SysPermission">
         UPDATE <include refid="tableName"></include>
         SET name=#{name},
-        status=#{status}
         url=#{url},
         menu_type=#{menu_type},
-        level=#{level},
         code=#{code},
         status=#{status},
         parent_id=#{parent_id}

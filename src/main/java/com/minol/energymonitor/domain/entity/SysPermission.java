@@ -12,6 +12,9 @@ public class SysPermission {
     private int level;
     private int status;
     private int parent_id;
+    private String title;
+    private boolean expand;
+    private boolean selected;
     private List<SysPermission> childPermission=new ArrayList<>();
 
     public int getId() {
@@ -84,5 +87,29 @@ public class SysPermission {
 
     public void setChildPermission(List<SysPermission> childPermission) {
         this.childPermission = childPermission;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
