@@ -31,7 +31,7 @@ public class PermissionController {
             }
         }
         for (SysPermission sysPermission:rootPermission){
-            sysPermission.setChildPermission(getChild(sysPermission.getId(),sysPermissions));
+            sysPermission.setChildren(getChild(sysPermission.getId(),sysPermissions));
         }
         return JsonUtils.fillResultString(0,"成功", rootPermission);
     }
@@ -75,7 +75,7 @@ public class PermissionController {
         }
         // 把子菜单的子菜单再循环一遍
         for (SysPermission menu : childList) {
-            menu.setChildPermission(getChild(menu.getId(), rootMenu));
+            menu.setChildren(getChild(menu.getId(), rootMenu));
         } // 递归退出条件
         if (childList.size() == 0) {
             return null;
