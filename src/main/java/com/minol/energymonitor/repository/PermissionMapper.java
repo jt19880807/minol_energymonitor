@@ -13,4 +13,5 @@ public interface PermissionMapper {
     List<SysPermission> selectAllPermissions();
     int insertPermission(SysPermission sysPermission);
     int updatePermission(SysPermission sysPermission);
+    int batchDeletPermissions(SysPermission sysPermission);
 }

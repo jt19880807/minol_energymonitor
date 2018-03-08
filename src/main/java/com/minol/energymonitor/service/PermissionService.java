@@ -21,4 +21,5 @@ public class PermissionService {
     }
     public int insertPermission(SysPermission sysPermission){return  permissionMapper.insertPermission(sysPermission);}
     public int updatePermission(SysPermission sysPermission){return  permissionMapper.updatePermission(sysPermission);}
+    public int batchDeletPermissions(SysPermission sysPermission){return  permissionMapper.batchDeletPermissions(sysPermission);}
 }

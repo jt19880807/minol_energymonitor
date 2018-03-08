@@ -27,4 +27,5 @@ public class RoleService {
     }
     public int isnertUser(SysRole sysRole){return  roleMapper.insertRole(sysRole);}
     public int updateUser(SysRole sysRole){return  roleMapper.updateRole(sysRole);}
+    public int updateRolePermission(SysRole sysRole){return roleMapper.updateRolePermission(sysRole);}
 }

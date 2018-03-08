@@ -46,18 +46,18 @@ public class RoleController {
      * @return
      */
     @PostMapping("/role")
-    public String insertUser(@RequestBody SysRole sysRole){
+    public String insertRole(@RequestBody SysRole sysRole){
         int result=roleService.isnertUser(sysRole);
         return JsonUtils.fillResultString(0,"成功",result);
     }
     /**
-     * 修改一条用户
+     * 修改一条角色信息
      * @param id
      * @param sysRole
      * @return
      */
     @PutMapping("/role/{id}")
-    public String updateProject(@PathVariable int id, @RequestBody SysRole sysRole){
+    public String updateRole(@PathVariable int id, @RequestBody SysRole sysRole){
 //        SysRole mUser=roleService.se(id);
 //        if (mUser!=null){
 //            mUser.setUsername(sysUser.getUsername());
@@ -67,6 +67,19 @@ public class RoleController {
 //        }
         sysRole.setId(id);
         int result=roleService.updateUser(sysRole);
+        return JsonUtils.fillResultString(0,"成功",result);
+    }
+    /**
+     * 修改指定角色的权限信息
+     * @param id
+     * @param sysRole
+     * @return
+     */
+    @PutMapping("/editRolePermission/{id}")
+    public String updateRolePermission(@PathVariable int id, @RequestBody SysRole sysRole){
+
+        sysRole.setId(id);
+        int result=roleService.updateRolePermission(sysRole);
         return JsonUtils.fillResultString(0,"成功",result);
     }
 }

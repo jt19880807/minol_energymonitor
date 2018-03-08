@@ -111,4 +111,15 @@ public class PermissionController {
         int result=permissionService.updatePermission(sysPermission);
         return JsonUtils.fillResultString(0,"成功",result);
     }
+
+    /**
+     * 删除权限信息及其子菜单信息
+     * @param sysPermission
+     * @return
+     */
+    @PostMapping("/permissions-del")
+    public String batchDelete(@RequestBody SysPermission sysPermission){
+        int result = permissionService.batchDeletPermissions(sysPermission);
+        return JsonUtils.fillResultString(0,"成功", result);
+    }
 }

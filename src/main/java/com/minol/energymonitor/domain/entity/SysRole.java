@@ -6,6 +6,7 @@ public class SysRole {
     private String code;
     private String des;
     private int status;
+    private String rights;
 
     public String getCode() {
         return code;
@@ -45,5 +46,17 @@ public class SysRole {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    public String getRights() {
+        return rights;
+    }
+
+    public void setRights(String rights) {
+        this.rights = rights;
     }
 }

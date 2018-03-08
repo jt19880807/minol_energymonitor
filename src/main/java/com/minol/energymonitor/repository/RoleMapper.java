@@ -15,4 +15,5 @@ public interface RoleMapper {
     int batchDeleteRoles(SysRole role);
     int insertRole(SysRole sysRole);
     int updateRole(SysRole sysRole);
+    int updateRolePermission(SysRole sysRole);
 }

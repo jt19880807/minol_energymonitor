@@ -15,6 +15,7 @@ public class SysPermission {
     private String title;
     private boolean expand;
     private boolean selected;
+    private boolean checked;
     private List<SysPermission> children=new ArrayList<>();
 
     public int getId() {
@@ -111,5 +112,13 @@ public class SysPermission {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

@@ -60,4 +60,11 @@
         status=#{status}
         WHERE id=#{id}
     </update>
+    <!--修改角色-->
+    <update id="updateRolePermission" parameterType="com.minol.energymonitor.domain.entity.SysRole">
+        UPDATE <include refid="tableName"></include>
+        SET rights=#{rights}
+        WHERE id=#{id}
+    </update>
+
 </mapper>
