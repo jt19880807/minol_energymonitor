@@ -42,6 +42,16 @@ public class SysUser {
      */
     private String projects;
 
+    private String rights;
+    /**
+     * 拥有的菜单权限
+     */
+    private String menus;
+    /**
+     * 拥有的按钮权限
+     */
+    private String buttons;
+
     public String getProjects() {
         return projects;
     }
@@ -121,6 +131,30 @@ public class SysUser {
 
     public void setSysRole(SysRole sysRole) {
         this.sysRole = sysRole;
+    }
+
+    public String getMenus() {
+        return menus;
+    }
+
+    public void setMenus(String menus) {
+        this.menus = menus;
+    }
+
+    public String getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(String buttons) {
+        this.buttons = buttons;
+    }
+
+    public String getRights() {
+        return rights;
+    }
+
+    public void setRights(String rights) {
+        this.rights = rights;
     }
 
     @Override

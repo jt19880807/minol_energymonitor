@@ -25,6 +25,7 @@
         #{des},
         #{status}
     </sql>
+
     <select id="selectAllRoles" resultMap="RoleResult">
         SELECT * FROM sys_role WHERE status!=1
     </select>

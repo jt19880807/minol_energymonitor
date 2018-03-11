@@ -44,6 +44,16 @@
         SELECT * FROM <include refid="tableName"></include> WHERE status!=1
     </select>
 
+    <!--批量删除-->
+    <select id="selectPermissionsByIds" parameterType="java.util.List">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND status!=1
+    </select>
+
     <!--新增角色-->
     <insert id="insertPermission" parameterType="com.minol.energymonitor.domain.entity.SysPermission">
         INSERT <include refid="tableName"></include> (

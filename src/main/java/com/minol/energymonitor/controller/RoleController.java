@@ -47,7 +47,7 @@ public class RoleController {
      */
     @PostMapping("/role")
     public String insertRole(@RequestBody SysRole sysRole){
-        int result=roleService.isnertUser(sysRole);
+        int result=roleService.insertRole(sysRole);
         return JsonUtils.fillResultString(0,"成功",result);
     }
     /**
@@ -66,7 +66,7 @@ public class RoleController {
 //            mUser.setStatus(sysUser.getStatus());
 //        }
         sysRole.setId(id);
-        int result=roleService.updateUser(sysRole);
+        int result=roleService.updateRole(sysRole);
         return JsonUtils.fillResultString(0,"成功",result);
     }
     /**

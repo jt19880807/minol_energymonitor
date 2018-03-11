@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface RoleMapper {
     List<SysRole> selectAllRoles();
-    SysRole selectRoleByName(String name);
+    SysRole selectRoleById(int id);
     int batchDeleteRoles(SysRole role);
     int insertRole(SysRole sysRole);
     int updateRole(SysRole sysRole);

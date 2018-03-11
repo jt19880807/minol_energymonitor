@@ -19,13 +19,13 @@ public class RoleService {
     public List<SysRole> selectAllRoles() {
         return roleMapper.selectAllRoles();
     }
-    public SysRole selectRoleByName(String name) {
-        return roleMapper.selectRoleByName(name);
+    public SysRole selectRoleById(int id) {
+        return roleMapper.selectRoleById(id);
     }
     public int batchDeletRoles(SysRole role){
         return roleMapper.batchDeleteRoles(role);
     }
-    public int isnertUser(SysRole sysRole){return  roleMapper.insertRole(sysRole);}
-    public int updateUser(SysRole sysRole){return  roleMapper.updateRole(sysRole);}
+    public int insertRole(SysRole sysRole){return  roleMapper.insertRole(sysRole);}
+    public int updateRole(SysRole sysRole){return  roleMapper.updateRole(sysRole);}
     public int updateRolePermission(SysRole sysRole){return roleMapper.updateRolePermission(sysRole);}
 }

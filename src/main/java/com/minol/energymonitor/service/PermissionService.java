@@ -19,6 +19,9 @@ public class PermissionService {
     public List<SysPermission> selectAllPermissions() {
         return permissionMapper.selectAllPermissions();
     }
+    public List<SysPermission> selectPermissionsByIds(List<Integer> ids) {
+        return permissionMapper.selectPermissionsByIds(ids);
+    }
     public int insertPermission(SysPermission sysPermission){return  permissionMapper.insertPermission(sysPermission);}
     public int updatePermission(SysPermission sysPermission){return  permissionMapper.updatePermission(sysPermission);}
     public int batchDeletPermissions(SysPermission sysPermission){return  permissionMapper.batchDeletPermissions(sysPermission);}

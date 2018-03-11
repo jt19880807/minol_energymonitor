@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface PermissionMapper {
     List<SysPermission> selectAllPermissions();
+    List<SysPermission> selectPermissionsByIds(List<Integer> ids);
+
     int insertPermission(SysPermission sysPermission);
     int updatePermission(SysPermission sysPermission);
     int batchDeletPermissions(SysPermission sysPermission);
