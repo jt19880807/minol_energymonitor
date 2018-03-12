@@ -5,8 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minol.energymonitor.domain.entity.Area;
 import com.minol.energymonitor.domain.entity.Building;
 import com.minol.energymonitor.domain.entity.Project;
-import com.minol.energymonitor.domain.model.AreaModel;
-import com.minol.energymonitor.domain.model.ProjectModel;
+import com.minol.energymonitor.domain.model.TransferModel;
 import com.minol.energymonitor.domain.model.TreeModel;
 import com.minol.energymonitor.service.AreaService;
 import com.minol.energymonitor.service.BuildingService;
@@ -210,6 +209,34 @@ public class ProjectController {
                 if (i==0){
                     projectModel.setSelected(true);
                 }
+                projectModels.add(projectModel);
+            }
+        }
+        return JsonUtils.fillResultString(0,"成功",projectModels);
+    }
+
+    /**
+     * 将项目信息解析成穿梭框模型
+     * @param ids
+     * @return
+     */
+    @GetMapping("/projecTransferModel/{ids}")
+    public String selectProjectTransferModel(@PathVariable String ids){
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(ids.equals("*")){//加入ID
+            map.put("projectIds",'*');
+        }
+        else {
+            map.put("projectIds",ids.split(","));
+        }
+        List<Project> projects=projectService.selectProjects(map);
+        List<TransferModel> projectModels=new ArrayList<>();
+        TransferModel projectModel;
+        if (projects.size()>0){
+            for (int i = 0; i < projects.size(); i++) {
+                projectModel=new TransferModel();
+                projectModel.setLabel(projects.get(i).getName());
+                projectModel.setKey(projects.get(i).getId()+"");
                 projectModels.add(projectModel);
             }
         }
