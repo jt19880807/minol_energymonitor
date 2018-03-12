@@ -34,7 +34,7 @@ public class LoginController {
         SysUser muser=userService.selectUserByName(user.getUsername());
         if (muser!=null){
             if (muser.getPassword().equals(user.getPassword())){
-                SysRole role = roleService.selectRoleById(user.getRole_id());
+                SysRole role = roleService.selectRoleById(muser.getRole_id());
                 if (role!=null){
                     muser.setRolename(role.getName());
                     muser.setRights(role.getRights());
@@ -53,8 +53,7 @@ public class LoginController {
                                 menus+=p.getCode()+",";
                             }
                             else if (p.getMenu_type()==2){
-                                buttons+=p.getId()+",";
-                                menus+=p.getParent_id()+",";
+                                buttons+=p.getCode()+",";
                             }
                         }
                         muser.setMenus(menus);

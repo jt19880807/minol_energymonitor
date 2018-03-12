@@ -45,16 +45,33 @@
     </select>
 
     <!--批量删除-->
-    <select id="selectPermissionsByIds" parameterType="java.util.List">
-        SELECT * FROM <include refid="tableName"></include>
-        WHERE id in
+    <select id="selectPermissionsByIds" parameterType="java.util.List" resultMap="PermissionResult">
+        <!--SELECT * FROM <include refid="tableName"></include>-->
+        <!--WHERE id in-->
+        <!--<foreach item="item" index="index" collection="list" open="(" separator="," close=")">-->
+            <!--#{item}-->
+        <!--</foreach>-->
+        <!--AND status!=1-->
+        SELECT * from sys_permission where id in (
+        select parent_id from sys_permission where id in (
+        select parent_id from sys_permission where id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        #{item}
+        </foreach>
+        )) UNION
+        select * from sys_permission where id in (
+        select parent_id from sys_permission where id in
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>
-        AND status!=1
+        ) UNION
+        select * from sys_permission where id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
-    <!--新增角色-->
+    <!--新增权限-->
     <insert id="insertPermission" parameterType="com.minol.energymonitor.domain.entity.SysPermission">
         INSERT <include refid="tableName"></include> (
         <include refid="field"></include>
@@ -63,7 +80,7 @@
         )
     </insert>
 
-    <!--修改角色-->
+    <!--修改权限-->
     <update id="updatePermission" parameterType="com.minol.energymonitor.domain.entity.SysPermission">
         UPDATE <include refid="tableName"></include>
         SET name=#{name},
