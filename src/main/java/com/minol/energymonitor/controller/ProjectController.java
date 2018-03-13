@@ -236,7 +236,7 @@ public class ProjectController {
             for (int i = 0; i < projects.size(); i++) {
                 projectModel=new TransferModel();
                 projectModel.setLabel(projects.get(i).getName());
-                projectModel.setKey(projects.get(i).getId()+"");
+                projectModel.setKey(projects.get(i).getId());
                 projectModels.add(projectModel);
             }
         }

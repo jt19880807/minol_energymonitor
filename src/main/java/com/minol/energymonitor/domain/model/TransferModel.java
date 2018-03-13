@@ -5,14 +5,14 @@ package com.minol.energymonitor.domain.model;
  * 穿梭框模型
  */
 public class TransferModel {
-    public String key;
+    public Integer key;
     public String label;
 
-    public String getKey() {
+    public Integer getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(Integer key) {
         this.key = key;
     }
 
