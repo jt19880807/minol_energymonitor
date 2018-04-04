@@ -52,6 +52,10 @@ public class SysUser {
      */
     private String buttons;
 
+    private LoginInfo loginInfo;
+
+    private String clientIP;
+
     public String getProjects() {
         return projects;
     }
@@ -155,6 +159,22 @@ public class SysUser {
 
     public void setRights(String rights) {
         this.rights = rights;
+    }
+
+    public LoginInfo getLoginInfo() {
+        return loginInfo;
+    }
+
+    public void setLoginInfo(LoginInfo loginInfo) {
+        this.loginInfo = loginInfo;
+    }
+
+    public String getClientIP() {
+        return clientIP;
+    }
+
+    public void setClientIP(String clientIP) {
+        this.clientIP = clientIP;
     }
 
     @Override

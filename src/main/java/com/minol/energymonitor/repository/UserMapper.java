@@ -1,5 +1,6 @@
 package com.minol.energymonitor.repository;
 
+import com.minol.energymonitor.domain.entity.LoginInfo;
 import com.minol.energymonitor.domain.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,6 @@ public interface UserMapper {
     int batchDeleteUsers(List<SysUser> users);
     int insertUser(SysUser sysUser);
     int updateUser(SysUser sysUser);
+    int insertLoginInfo(LoginInfo loginInfo);
+    LoginInfo selectLastLoginByUserId(int userId);
 }

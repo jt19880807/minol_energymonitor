@@ -11,7 +11,7 @@ import com.minol.energymonitor.utils.JsonUtils;
 import com.minol.energymonitor.utils.PDFUtil;
 import com.minol.energymonitor.view.PdfView;
 import org.apache.commons.io.FileUtils;
-import org.apache.tomcat.jni.Global;
+//import org.apache.tomcat.jni.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.ui.Model;

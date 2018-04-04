@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Class-Path: classmate-1.3.4.jar logback-classic-1.1.11.jar tomcat-anno
+ tations-api-8.5.23.jar tomcat-juli-8.5.23.jar mybatis-spring-boot-sta
+ rter-1.3.1.jar spring-jdbc-4.3.12.RELEASE.jar logback-core-1.1.11.jar
+  jsqlparser-0.9.4.jar commons-io-2.4.jar spring-boot-starter-security
+ -1.5.8.RELEASE.jar slf4j-api-1.7.25.jar snakeyaml-1.17.jar spring-web
+ -4.3.12.RELEASE.jar jackson-core-2.8.10.jar spring-boot-starter-1.5.8
+ .RELEASE.jar spring-boot-starter-logging-1.5.8.RELEASE.jar itext-asia
+ n-5.2.0.jar mysql-connector-java-5.1.44.jar spring-boot-starter-jdbc-
+ 1.5.8.RELEASE.jar mybatis-3.4.5.jar spring-expression-4.3.12.RELEASE.
+ jar jcl-over-slf4j-1.7.25.jar spring-tx-4.3.12.RELEASE.jar jackson-da
+ tabind-2.8.10.jar itextpdf-5.5.11.jar log4j-over-slf4j-1.7.25.jar jul
+ -to-slf4j-1.7.25.jar spring-boot-starter-tomcat-1.5.8.RELEASE.jar jac
+ kson-annotations-2.8.0.jar jconsole.jar spring-boot-autoconfigure-1.5
+ .8.RELEASE.jar tomcat-jdbc-8.5.23.jar hibernate-validator-5.3.5.Final
+ .jar spring-boot-1.5.8.RELEASE.jar tomcat-embed-websocket-8.5.23.jar 
+ spring-core-4.3.12.RELEASE.jar spring-aop-4.3.12.RELEASE.jar validati
+ on-api-1.1.0.Final.jar druid-1.0.26.jar jjwt-0.9.0.jar spring-securit
+ y-core-4.2.3.RELEASE.jar tomcat-embed-el-8.5.23.jar spring-beans-4.3.
+ 12.RELEASE.jar tools.jar spring-boot-starter-web-1.5.8.RELEASE.jar sp
+ ring-security-config-4.2.3.RELEASE.jar json-20140107.jar tomcat-embed
+ -core-8.5.23.jar spring-context-4.3.12.RELEASE.jar mybatis-spring-boo
+ t-autoconfigure-1.3.1.jar pagehelper-4.1.0.jar mybatis-spring-1.3.1.j
+ ar jboss-logging-3.3.1.Final.jar spring-security-web-4.2.3.RELEASE.ja
+ r spring-webmvc-4.3.12.RELEASE.jar
+Main-Class: com.minol.energymonitor.MinolEnergymonitorApplication
+

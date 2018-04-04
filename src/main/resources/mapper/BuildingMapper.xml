@@ -67,6 +67,13 @@
     <select id="selectBuildingById"  parameterType="int" resultMap="BuildingResult">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
+    <!--根据小区ID和楼栋编号查询楼栋信息-->
+    <select id="selectBuildingByAreaIdAndBuildingNo"  parameterType="com.minol.energymonitor.domain.entity.Building"
+            resultMap="BuildingResult">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE area_id=#{area_id} and isdeleted=0 AND name=#{name}
+    </select>
+
 
     <!--根据项目ID或者小区ID查找下面的楼栋,仅返回ID和Name-->
     <select id="selectBuildingWithIDAndName" parameterType="Map" resultMap="BuildingResult_Select">

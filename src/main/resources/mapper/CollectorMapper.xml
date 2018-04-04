@@ -43,12 +43,15 @@
         #{create_by},
         #{update_by}
     </sql>
-
     <!--根据主键ID查询采集器信息-->
     <select id="selectCollectorById"  parameterType="int" resultMap="CollectorResult">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
-
+    <!--根据Number查询采集器信息-->
+    <select id="selectCollectorByNumber"  parameterType="com.minol.energymonitor.domain.entity.Collector"
+            resultMap="CollectorResult">
+        SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND number=#{number}
+    </select>
     <!--查询指定ID范围的楼栋信息-->
     <select id="selectCollectors" parameterType="Map" resultMap="CollectorResult">
         SELECT * from collector c,building b where
@@ -67,7 +70,6 @@
         </if>
         c.isdeleted=0 AND b.isdeleted=0
     </select>
-
     <!--根据项目ID或者小区ID或者楼栋ID查找下面的采集器,仅返回ID和Number-->
     <select id="selectCollectorWithIDAndNumber" parameterType="Map" resultMap="CollectorResult_Select">
         SELECT c.id,c.number from collector c,building b where
@@ -86,7 +88,6 @@
         </if>
         c.isdeleted=0 AND b.isdeleted=0
     </select>
-
     <!--批量删除-->
     <update id="batchDeleteCollectors" parameterType="java.util.List">
         UPDATE <include refid="tableName"></include>
@@ -96,8 +97,7 @@
             #{item.id}
         </foreach>
     </update>
-
-    <!--插入一条楼栋信息-->
+    <!--插入一条采集器信息-->
     <insert id="insertCollector" parameterType="com.minol.energymonitor.domain.entity.Collector">
         INSERT <include refid="tableName"></include> (
         <include refid="field"></include>
@@ -105,7 +105,16 @@
         <include refid="fieldValue"></include>
         )
     </insert>
+    <!--批量插入采集器信息-->
+    <insert id="batchInsertCollector" parameterType="java.util.List">
 
+        INSERT <include refid="tableName"></include> (
+        <include refid="field"></include>
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.number},#{item.building_id},0,#{item.create_time}, #{item.update_time}, #{item.create_by}, #{item.update_by})
+        </foreach>
+    </insert>
     <!--修改楼栋信息-->
     <update id="updateCollector" parameterType="com.minol.energymonitor.domain.entity.Collector">
         UPDATE <include refid="tableName"></include>

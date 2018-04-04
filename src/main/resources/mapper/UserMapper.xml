@@ -11,7 +11,7 @@
         <result column="last_login" property="last_login"/>
         <result column="rolename" property="rolename"/>
         <result column="projects" property="projects"/>
-        <!--<association property="sysRole" column="role_id" select="com.minol.energymonitor.repository.RoleMapper.selectRoleById"/>-->
+        <!--<association property="loginInfo" column="id" select="com.minol.energymonitor.repository.UserMapper.selectLastLoginByUserId"/>-->
     </resultMap>
     <!--表名 -->
     <sql id="tableName">
@@ -30,7 +30,6 @@
         createtime,
         last_login
     </sql>
-
     <sql id="fieldValue">
         #{username},
         #{password},
@@ -39,6 +38,20 @@
         #{status},
         #{createtime},
         #{last_login}
+    </sql>
+
+    <sql id="lastLoginField">
+        user_id,
+        lastlogin_ip,
+        lastlogin_time,
+        lastlogin_city
+    </sql>
+
+    <sql id="lastLoginFieldValue">
+        #{user_id},
+        #{lastlogin_ip},
+        #{lastlogin_time},
+        #{lastlogin_city}
     </sql>
 
     <!--查询所有的用户信息和角色信息-->
@@ -55,6 +68,11 @@
     <!--根据主键ID查询项目信息-->
     <select id="selectUserById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.SysUser">
         SELECT * FROM <include refid="tableName"></include> WHERE id = #{id} AND status!=1
+    </select>
+
+    <!--根据主键ID查询用户最后一条登录信息-->
+    <select id="selectLastLoginByUserId"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.LoginInfo">
+        SELECT * FROM login_info WHERE user_id = #{userId} ORDER BY lastlogin_time DESC LIMIT 1
     </select>
 
     <!--批量删除-->
@@ -74,6 +92,15 @@
         <include refid="field"></include>
         ) VALUES (
         <include refid="fieldValue"></include>
+        )
+    </insert>
+
+    <!--新增登录记录-->
+    <insert id="insertLoginInfo" parameterType="com.minol.energymonitor.domain.entity.LoginInfo">
+        INSERT login_info (
+        <include refid="lastLoginField"></include>
+        ) VALUES (
+        <include refid="lastLoginFieldValue"></include>
         )
     </insert>
 

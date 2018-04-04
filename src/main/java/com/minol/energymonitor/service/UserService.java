@@ -1,5 +1,6 @@
 package com.minol.energymonitor.service;
 
+import com.minol.energymonitor.domain.entity.LoginInfo;
 import com.minol.energymonitor.repository.UserMapper;
 import com.minol.energymonitor.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +29,6 @@ public class UserService {
     }
     public int isnertUser(SysUser sysUser){return  userMapper.insertUser(sysUser);}
     public int updateUser(SysUser sysUser){return  userMapper.updateUser(sysUser);}
+    public int insertLoginInfo(LoginInfo loginInfo){return  userMapper.insertLoginInfo(loginInfo);}
+    public LoginInfo selectLastLoginByUserId(int userId){return  userMapper.selectLastLoginByUserId(userId);}
 }

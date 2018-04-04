@@ -59,12 +59,19 @@
         #{update_by}
     </sql>
 
-    <!--根据主键ID查询采集器信息-->
+    <!--根据主键ID查询表计信息-->
     <select id="selectMeterById"  parameterType="int" resultType="com.minol.energymonitor.domain.entity.Meter">
         SELECT * FROM <include refid="tableName"></include> WHERE isdeleted=0 AND id=#{id}
     </select>
 
-    <!--根据项目ID或者小区ID或者楼栋ID查找下面的采集器,仅返回ID和Number-->
+    <!--根据采集器ID和表号查询表计信息-->
+    <select id="getMeterByCollectorIdAndMeterNumber"  parameterType="com.minol.energymonitor.domain.entity.Meter"
+            resultType="com.minol.energymonitor.domain.entity.Meter">
+        SELECT * FROM <include refid="tableName"></include>
+        WHERE isdeleted=0 AND number=#{number} AND collector_id=#{collector_id} AND meter_type=#{meter_type}
+    </select>
+
+    <!--根据项目ID或者小区ID或者楼栋ID查找下面的表计,仅返回ID和Number-->
     <select id="selectMetersWithIDAndNumber" parameterType="Map" resultMap="MeterResult_Select">
         SELECT m.id,m.number from meter m,collector c,building b where
         m.collector_id=c.id AND
@@ -85,7 +92,7 @@
         c.isdeleted=0 AND b.isdeleted=0
     </select>
 
-    <!--查询指定ID范围的楼栋信息-->
+    <!--查询指定ID范围的表计信息-->
     <select id="selectMeters" parameterType="Map" resultMap="MeterResult">
         SELECT m.id,m.number,
         m.collector_id,
@@ -126,7 +133,7 @@
         </foreach>
     </update>
 
-    <!--插入一条楼栋信息-->
+    <!--插入一条表计信息-->
     <insert id="insertMeter" parameterType="com.minol.energymonitor.domain.entity.Meter">
         INSERT <include refid="tableName"></include> (
         <include refid="field"></include>
@@ -134,7 +141,23 @@
         <include refid="fieldValue"></include>
         )
     </insert>
-
+    <!--批量插入表计信息-->
+    <insert id="batchInsertMeter" parameterType="java.util.List">
+        INSERT <include refid="tableName"></include> (
+        <include refid="field"></include>
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.number},#{item.collector_id},#{item.meter_type},#{item.factory},
+            #{item.model},
+            #{item.position},
+            #{item.doorNum},
+            0,
+            #{item.create_time},
+            #{item.update_time},
+            #{item.create_by},
+            #{item.update_by})
+        </foreach>
+    </insert>
     <!--修改楼栋信息-->
     <update id="updateMeter" parameterType="com.minol.energymonitor.domain.entity.Meter">
         UPDATE <include refid="tableName"></include>

@@ -77,5 +77,8 @@ public class BuildingService {
         return buildingMapper.updateBuilding(building);
     }
 
+    public Building selectBuildingByAreaIdAndBuildingNo(Building building){
+        return buildingMapper.selectBuildingByAreaIdAndBuildingNo(building);
+    }
 
 }

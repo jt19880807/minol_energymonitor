@@ -18,6 +18,7 @@ public interface BuildingMapper {
     List<Building> selectBuildingWithIDAndName(Map map);
     List<TreeModel> selectBuildingWithIDAndAreaName(int projectId);
     Building selectBuildingById(int id);
+    Building selectBuildingByAreaIdAndBuildingNo(Building building);
     int batchDeleteBuildings(List<Building> buildings);
     int insertBuilding(Building building);
     int updateBuilding(Building building);

@@ -17,7 +17,9 @@ public interface MeterMapper {
     List<Meter> selectMeters(Map map);
     List<Meter> selectMetersWithIDAndNumber(Map map);
     Meter selectMeterById(int id);
+    Meter getMeterByCollectorIdAndMeterNumber(Meter meter);
     int batchDeleteMeters(List<Meter> meters);
+    int batchInsertMeter(List<Meter> meters);
     int insertMeter(Meter meter);
     int updateMeter(Meter meter);
 

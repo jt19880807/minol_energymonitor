@@ -17,7 +17,7 @@ public class MeterService {
     @Autowired
     MeterMapper meterMapper;
     /**
-     * 查询指定ID的楼栋信息
+     * 查询指定ID的表计信息
      * @param map
      * @return
      */
@@ -26,7 +26,7 @@ public class MeterService {
     }
 
     /**
-     * 根据主键ID查找楼栋信息
+     * 根据主键ID查找表计信息
      * @param id
      * @return
      */
@@ -34,6 +34,12 @@ public class MeterService {
         return meterMapper.selectMeterById(id);
     }
 
+    /**
+     *根据采集器ID和表号查询表计信息
+     * @param meter
+     * @return
+     */
+    public Meter getMeterByCollectorIdAndMeterNumber(Meter meter){return meterMapper.getMeterByCollectorIdAndMeterNumber(meter);}
     /**
      * 查询表计 只返回ID和Number
      * @param map
@@ -52,7 +58,7 @@ public class MeterService {
     }
 
     /**
-     * 插入一条楼栋信息
+     * 插入一条表计信息
      * @param meter
      * @return
      */
@@ -60,7 +66,7 @@ public class MeterService {
         return meterMapper.insertMeter(meter);
     }
     /**
-     * 修改楼栋信息
+     * 修改表计信息
      * @param meter
      * @return
      */
@@ -68,5 +74,11 @@ public class MeterService {
         return meterMapper.updateMeter(meter);
     }
 
+    /**
+     * 批量插入表计信息
+     * @param meters
+     * @return
+     */
+    public int batchInsertMeter(List<Meter> meters){return meterMapper.batchInsertMeter(meters);}
 
 }

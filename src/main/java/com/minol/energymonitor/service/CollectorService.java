@@ -67,5 +67,11 @@ public class CollectorService {
         return collectorMapper.updateCollector(collector);
     }
 
+    public  Collector selectCollectorByNumber(Collector collector){
+        return collectorMapper.selectCollectorByNumber(collector);
+    }
+
+    public int batchInsertCollector(List<Collector> collectors){return collectorMapper.batchInsertCollector(collectors);}
+
 
 }
